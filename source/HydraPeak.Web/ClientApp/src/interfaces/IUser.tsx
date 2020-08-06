@@ -11,6 +11,5 @@ export interface IUser
     id: any, // from mongoDB
 
     version: DocVersion,
-    emailAddress: string,
-    gold: number
+    emailAddress: string
 };

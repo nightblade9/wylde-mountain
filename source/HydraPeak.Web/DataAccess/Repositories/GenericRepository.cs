@@ -36,7 +36,7 @@ namespace HydraPeak.Web.DataAccess.Repositories
         {
             var collection = this.GetCollection<T>();
             // TL;DR we're probably consuming lots of memory here returning all, but we need it.
-            // Returning AsQueryable causes this weird case; update gold (gold = 1) returns,
+            // Returning AsQueryable causes this weird case; update any field (e.g. gold = 1) returns,
             // save user executes, and gold is back to 0; probably because it's re-evaluated
             // from Mongo directly instead of preserving the in-memory changes thus far.
             return collection.AsQueryable().ToList();
@@ -45,9 +45,8 @@ namespace HydraPeak.Web.DataAccess.Repositories
         public void Update<T>(T target) where T : HasId
         {
             // Kinda sorta like assumes target has an ObjectId field named Id. Also assumes that reflection
-            // is sufficiently fast, even if we're doing this for a darth of users every 1s.
+            // is sufficiently fast given how often we're doing this. Profile later if there's a problem.
             var collection = this.GetCollection<T>();
-            //var filter = Builders<T>.Filter.Eq(o => (o as HasId).Id, id);
             var filter = Builders<T>.Filter.Eq("Id", target.Id);
             collection.ReplaceOne(filter, target, new ReplaceOptions());
         }

@@ -1,9 +1,12 @@
+using System;
+using HydraPeak.Web.DataAccess.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 
 namespace HydraPeak.Web
 {
@@ -27,6 +30,8 @@ namespace HydraPeak.Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            this.ConfigureDependencyInjection(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +70,12 @@ namespace HydraPeak.Web
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+        }
+        
+        private void ConfigureDependencyInjection(IServiceCollection services)
+        {
+            services.AddScoped<IMongoClient, MongoClient>();
+            services.AddScoped<IGenericRepository, GenericRepository>();
         }
     }
 }
