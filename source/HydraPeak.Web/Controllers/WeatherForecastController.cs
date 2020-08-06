@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using HydraPeak.Web.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace HydraPeak.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    [Route("/api/[controller]")]
+    public class WeatherForecastController : HydraPeakController
     {
         private static readonly string[] Summaries = new[]
         {
@@ -17,10 +18,13 @@ namespace HydraPeak.Web.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IGenericRepository _genericRepo;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration, IGenericRepository genericRepository)
+        : base(genericRepository)
         {
             _logger = logger;
+            _genericRepo = genericRepository;
         }
 
         [HttpGet]
