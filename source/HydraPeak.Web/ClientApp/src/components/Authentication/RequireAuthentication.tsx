@@ -7,7 +7,7 @@ export class RequireAuthentication extends Component {
     render = () => {
         if (localStorage.getItem("userInfo") == null)
         {
-            return  <Redirect  to="/login" />
+            return  <Redirect to="/login" />
         }
         return null;
     }
