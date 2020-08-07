@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MemoryRouter, Redirect } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { RequireAuthentication } from './RequireAuthentication';
 
 it('redirects to login if not authenticated', async () => {
