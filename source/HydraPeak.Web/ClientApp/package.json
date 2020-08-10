@@ -37,6 +37,10 @@
     "jest-sonar-reporter": "^2.0.0",
     "typescript": "3.7.2"
   },
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },

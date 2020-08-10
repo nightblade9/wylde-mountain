@@ -1,0 +1,20 @@
+{
+  "name": "hydra-peak",
+  "version": "1.0.0",
+  "description": "Single-player MMO/web roguelike with persistence. Made in ASP.NET Core + React.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nightblade9/hydra-peak.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nightblade9/hydra-peak/issues"
+  },
+  "homepage": "https://github.com/nightblade9/hydra-peak#readme"
+}
