@@ -9,15 +9,36 @@ namespace HydraPeak.Web.DataAccess.Repositories
 {
     public class GenericRepository : IGenericRepository
     {
+        private const string MongoEnvironmentVarConnectionStringKey = "MongoDbConnectionString";
         private readonly IMongoClient client;
         private readonly MongoCollectionSettings settings;
         private readonly string databaseName;
 
         public GenericRepository(IConfiguration configuration, IMongoClient client)
         {
-            this.client = client;
-            this.settings = new MongoCollectionSettings() { AssignIdOnInsert = true };
-            this.databaseName = configuration.GetSection("MongoDb:Database").Value;
+            // If we have an environment variable configured for connection string, use that instead.
+            var environmentConnectionString = Environment.GetEnvironmentVariable(MongoEnvironmentVarConnectionStringKey);
+            
+            if (!string.IsNullOrWhiteSpace(environmentConnectionString))
+            {
+                this.client = new MongoClient(environmentConnectionString);
+                // This could be wrong, but there's no way to find the value from the client :/
+                this.databaseName = configuration.GetSection("MongoDb:Database").Value;
+            }
+            else
+            {
+                this.client = client;
+                this.databaseName = configuration.GetSection("MongoDb:Database").Value;
+            }
+
+            // TODO: recommended by MLab, but settings are frozen :/
+            //client.Settings.RetryWrites = true;
+
+            this.settings = new MongoCollectionSettings()
+            {
+                AssignIdOnInsert = true,
+                WriteConcern = WriteConcern.WMajority, // Required by MLab
+            };
         }
 
         public T SingleOrDefault<T>(Expression<Func<T, bool>> predicate)
