@@ -1,0 +1,10 @@
+{
+    "login": "الصفحة الرئيسية",
+    "emailAddress": "عنوان البريد الالكترونى",
+    "password": "كلمه السر",
+    "rememberMe": "تذكرنى",
+    "forgotPassword": "نسيت رقمك السري؟",
+    "register": "ليس لديك حساب؟ تسجيل",
+    "loginFailed": "فشل تسجيل الدخول!",
+    "loginSucceeded": "نجح تسجيل الدخول!"
+}
