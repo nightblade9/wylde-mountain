@@ -5,6 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import { Link, useHistory } from 'react-router-dom';
 import { Identity } from './Authentication/Identity';
 import LocalizedStrings from 'react-localization';
+import { useStore } from 'react-context-hook';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,12 +38,18 @@ export function NavMenu() {
   
   // TODO: this should be DRY with login.tsx
   const loginStrings = new LocalizedStrings({
-    "en": require('~/../../resources/components/Login-en.json')
+    "en": require('~/../../resources/components/Login-en.json'),
+    "ar": require('~/../../resources/components/Login-ar.json'),
   });
 
   const languageStrings = new LocalizedStrings({
-    "en": require('~/../../resources/components/NavMenu-en.json')
+    "en": require('~/../../resources/components/NavMenu-en.json'),
+    "ar": require('~/../../resources/components/NavMenu-ar.json')
   });
+
+  const [currentLanguage] = useStore("currentLanguage");
+  loginStrings.setLanguage(currentLanguage);
+  languageStrings.setLanguage(currentLanguage);
 
   return (
     <header>

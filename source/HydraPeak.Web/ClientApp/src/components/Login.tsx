@@ -3,6 +3,7 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { Container, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, makeStyles, Link } from '@material-ui/core';
 import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons'
 import LocalizedStrings from 'react-localization';
+import { useStore } from 'react-context-hook';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,11 +26,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Login() {
-  
+
   const languageStrings = new LocalizedStrings({
-    "en": require('~/../../resources/components/Login-en.json')
+    "en": require('~/../../resources/components/Login-en.json'),
+    "ar": require('~/../../resources/components/Login-ar.json')
   });
 
+  const [currentLanguage] = useStore("currentLanguage");
+  languageStrings.setLanguage(currentLanguage);
+  
   const classes = useStyles();
 
   // use state hooks
@@ -38,8 +43,6 @@ export function Login() {
 
   // for routing
   const history = useHistory();
-
-  console.log(JSON.stringify(languageStrings));
 
   const onSumbit = (event: ChangeEvent<HTMLFormElement>) => {
     let state = { emailAddress: email, password: password };
