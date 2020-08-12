@@ -3,7 +3,7 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { Container, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, makeStyles, Link } from '@material-ui/core';
 import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons'
 import LocalizedStrings from 'react-localization';
-import { useStore } from 'react-context-hook';
+import { globalSettings } from '../App';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,8 +32,7 @@ export function Login() {
     "ar": require('~/../../resources/components/Login-ar.json')
   });
 
-  const [currentLanguage] = useStore("currentLanguage");
-  languageStrings.setLanguage(currentLanguage);
+  languageStrings.setLanguage(globalSettings.language);
   
   const classes = useStyles();
 

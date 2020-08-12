@@ -7,14 +7,16 @@ import { FetchData } from './components/FetchData';
 import { Register } from './components/Register';
 import { Login } from './components/Login';
 import { CoreGame } from './components/CoreGame';
-import { withStore} from 'react-context-hook';
+import LanguageSwitcher from './components/LanguageSwitcher';
+import { GlobalSettings } from  './interfaces/IGlobalSettings';
 
-class App extends Component
+export default class App extends Component
 {
   render()
   {
     return (
       <Layout>
+        <LanguageSwitcher />
         <Route exact path='/' component={Home} />
         <Route path='/register' component={Register} />
         <Route path='/login' component={Login} />
@@ -26,6 +28,8 @@ class App extends Component
   }
 };
 
-const defaultLanguage:string = "en";
-const initialState = { currentLanguage: defaultLanguage }
-export default withStore(App, initialState);
+// global variable for I18N, herp derp
+export var globalSettings:GlobalSettings =
+{
+  "language": "en"
+}

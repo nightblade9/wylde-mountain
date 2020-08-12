@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
-import { useStore } from 'react-context-hook';
+import { globalSettings } from '../App';
+import { light } from '@material-ui/core/styles/createPalette';
 
 export default class LanguageSwitcher extends Component
 {
+    // Order matters because the callback gives us an index only
+    supportedLanguages:Array<any> =
+    [
+        { "id": "en", "name": "English" },
+        { "id": "ar", "name": "العربية" } 
+    ]
+
     constructor(props:any)
     {
         super(props);
@@ -11,31 +19,18 @@ export default class LanguageSwitcher extends Component
 
     changeLanguage(e:any):void
     {
-        const [currentLanguage, setCurrentLanguage] = useStore("currentLanguage");
         let index = e.target.selectedIndex;
-        console.log("Hi, idx=" + index);
-        setCurrentLanguage("ar");
+        var targetLanguage = this.supportedLanguages[index].id;
+        globalSettings.language = targetLanguage;
     }
 
     render()
     {
-        const [currentLanguage] = useStore("currentLanguage");
-        
-        const supportedLanguages:Record<string, string> =
-        {
-            "en": "English" ,
-            "ar": "العربية" 
-        }
-
-        const languagesList = Object.keys(supportedLanguages).map((l:string) => {
-            return (
-                <option value={l} {... l === currentLanguage ? "selected" : ""}>{supportedLanguages[l]}</option>
-            )
-        });
-
         return (
             <select onChange={this.changeLanguage}>
-                {languagesList}
+                {this.supportedLanguages.map(language => (
+                    <option value={language.id}>{language.name}</option>
+                ))}
             </select>
         );
     }

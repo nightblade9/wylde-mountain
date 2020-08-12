@@ -5,7 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import { Link, useHistory } from 'react-router-dom';
 import { Identity } from './Authentication/Identity';
 import LocalizedStrings from 'react-localization';
-import { useStore } from 'react-context-hook';
+import { globalSettings } from '../App';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,9 +47,8 @@ export function NavMenu() {
     "ar": require('~/../../resources/components/NavMenu-ar.json')
   });
 
-  const [currentLanguage] = useStore("currentLanguage");
-  loginStrings.setLanguage(currentLanguage);
-  languageStrings.setLanguage(currentLanguage);
+  loginStrings.setLanguage(globalSettings.language);
+  languageStrings.setLanguage(globalSettings.language);
 
   return (
     <header>

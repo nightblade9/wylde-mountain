@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { RequireAuthentication } from './Authentication/RequireAuthentication';
 import { IUser } from '../interfaces/IUser';
 import JwtBody from '../interfaces/Jwt';
-import LanguageSwitcher from './LanguageSwitcher';
 import jwtDecode from 'jwt-decode';
 
 interface IProps {
@@ -44,7 +43,6 @@ class CoreGame extends Component<IProps, IState> {
     return (
       <div>
         <RequireAuthentication />
-        <LanguageSwitcher />
         <h1>{this.state.userName}'s Stats</h1>
         {contents}
         
