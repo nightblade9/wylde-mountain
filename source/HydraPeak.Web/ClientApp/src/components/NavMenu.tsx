@@ -4,6 +4,7 @@ import { AppBar, Toolbar, IconButton, Typography, Button } from '@material-ui/co
 import MenuIcon from '@material-ui/icons/Menu'
 import { Link, useHistory } from 'react-router-dom';
 import { Identity } from './Authentication/Identity';
+import LocalizedStrings from 'react-localization';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,10 +31,18 @@ const NavButton = (props: { to: string, children: React.ReactNode | React.ReactN
   )
 }
 
-
 export function NavMenu() {
   const classes = useStyles();
   const history = useHistory();
+  
+  // TODO: this should be DRY with login.tsx
+  const loginStrings = new LocalizedStrings({
+    "en": require('~/../../resources/components/Login-en.json')
+  });
+
+  const languageStrings = new LocalizedStrings({
+    "en": require('~/../../resources/components/NavMenu-en.json')
+  });
 
   return (
     <header>
@@ -57,10 +66,10 @@ export function NavMenu() {
           </Typography>
 
           {/* all the links */}
-          <NavButton to="/" >Home</NavButton>
+          <NavButton to="/" >{languageStrings.home}</NavButton>
           <NavButton to="/counter">Counter</NavButton>
           <NavButton to="/fetch-data">Fetch data</NavButton>
-          <NavButton to="/login">Login</NavButton>
+          <NavButton to="/login">{loginStrings.login}</NavButton>
         </Toolbar>
       </AppBar>
     </header>
