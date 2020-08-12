@@ -1,0 +1,10 @@
+{
+    "login": "Log in",
+    "emailAddress": "Email Address",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "register": "Don't have an account? Register",
+    "loginFailed": "Login failed!",
+    "loginSucceeded": "Login succeeded!"
+}

@@ -1,7 +1,8 @@
-import React, { ChangeEvent, useState } from 'react';
-import { Link as RouterLink, RouteComponentProps, useHistory } from 'react-router-dom';
-import { Container, CssBaseline, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, makeStyles, Link } from '@material-ui/core';
+import React, { ChangeEvent, useState, Component } from 'react';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { Container, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, makeStyles, Link } from '@material-ui/core';
 import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons'
+import LocalizedStrings from 'react-localization';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,14 +25,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Login() {
+  
+  const languageStrings = new LocalizedStrings({
+    "en": require('~/../../resources/components/Login-en.json')
+  });
+
   const classes = useStyles();
 
   // use state hooks
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   // for routing
   const history = useHistory();
+
+  console.log(JSON.stringify(languageStrings));
 
   const onSumbit = (event: ChangeEvent<HTMLFormElement>) => {
     let state = { emailAddress: email, password: password };
@@ -54,11 +62,11 @@ export function Login() {
           return response.json();
         }
         else {
-          throw new Error("Login failed!");
+          throw new Error(languageStrings.loginFailed);
         }
       })
       .then(data => {
-        console.log("Login succeeded: " + JSON.stringify(data));
+        console.log(languageStrings.loginSucceeded + ": " + JSON.stringify(data));
         var token = data.token;
         localStorage.setItem("userInfo", token);
         history.push("/");
@@ -73,7 +81,7 @@ export function Login() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {languageStrings.login}
       </Typography>
         <form className={classes.form} noValidate onSubmit={onSumbit}>
           <TextField
@@ -82,7 +90,7 @@ export function Login() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={languageStrings.emailAddress}
             name="email"
             autoComplete="email"
             autoFocus
@@ -94,7 +102,7 @@ export function Login() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={languageStrings.password}
             type="password"
             id="password"
             autoComplete="current-password"
@@ -102,7 +110,7 @@ export function Login() {
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label={languageStrings.rememberMe}
           />
           <Button
             type="submit"
@@ -111,17 +119,17 @@ export function Login() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            {languageStrings.login}
         </Button>
           <Grid container>
             <Grid item xs>
               <Link variant="body2">
-                Forgot password?
+                {languageStrings.register} 
             </Link>
             </Grid>
             <Grid item>
               <Link to="/register" variant="body2" component={RouterLink}>
-                Don't have an account? Sign Up
+                {languageStrings.register}
             </Link>
             </Grid>
           </Grid>
