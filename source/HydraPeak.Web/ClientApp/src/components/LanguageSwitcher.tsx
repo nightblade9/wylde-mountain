@@ -21,7 +21,6 @@ const LanguageSwitcher = (props:any) =>
         var targetLanguage = supportedLanguages[index].id;
         globalSettings.language = targetLanguage;
         setCookies("language", targetLanguage, { path: "/" });
-        console.log("Set cookie language to " + targetLanguage);
     }
 
     return (

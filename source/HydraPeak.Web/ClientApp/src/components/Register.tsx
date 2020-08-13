@@ -37,8 +37,6 @@ const Register = (props:any) => {
   const onSumbit = (event: ChangeEvent<HTMLFormElement>) => {
     let state = {emailAddress: email, password: password};
 
-    console.log(JSON.stringify(state));
-
     event.preventDefault();
   
     return fetch('api/register',

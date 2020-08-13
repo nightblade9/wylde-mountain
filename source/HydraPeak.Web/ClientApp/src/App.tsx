@@ -28,7 +28,6 @@ const App = (props:any) =>
   if (cookies.language !== undefined)
   {
     globalSettings.language = cookies.language;
-    console.log("Cookie-set language: " + cookies.language); 
   }
 
   return (
