@@ -1,4 +1,4 @@
-export interface GlobalSettings
+export interface IGlobalSettings
 {
     language: string;
 }

@@ -8,7 +8,7 @@ import { Register } from './components/Register';
 import { Login } from './components/Login';
 import { CoreGame } from './components/CoreGame';
 import LanguageSwitcher from './components/LanguageSwitcher';
-import { GlobalSettings } from  './interfaces/IGlobalSettings';
+import { IGlobalSettings } from  './interfaces/IGlobalSettings';
 
 export default class App extends Component
 {
@@ -29,7 +29,7 @@ export default class App extends Component
 };
 
 // global variable for I18N, herp derp
-export var globalSettings:GlobalSettings =
+export var globalSettings:IGlobalSettings =
 {
   "language": "en"
 }
