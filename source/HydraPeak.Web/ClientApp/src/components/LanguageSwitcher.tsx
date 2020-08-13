@@ -1,37 +1,36 @@
-import React, { Component } from 'react';
-import { globalSettings } from '../App';
-import { light } from '@material-ui/core/styles/createPalette';
+import React, { ChangeEvent } from 'react';
+import { useCookies } from 'react-cookie';
 
-export default class LanguageSwitcher extends Component
+import { COOKIE_NAME } from '../Constants';
+import { globalSettings } from '../App';
+
+const LanguageSwitcher = (props:any) =>
 {
     // Order matters because the callback gives us an index only
-    supportedLanguages:Array<any> =
+    const supportedLanguages: Array<any> =
     [
         { "id": "en", "name": "English" },
         { "id": "ar", "name": "العربية" } 
     ]
 
-    constructor(props:any)
-    {
-        super(props);
-        this.changeLanguage = this.changeLanguage.bind(this);
-    }
+    const [cookies, setCookies] = useCookies([COOKIE_NAME]);
 
-    changeLanguage(e:any):void
+    const ChangeLanguage = (event: ChangeEvent<HTMLSelectElement>) =>
     {
-        let index = e.target.selectedIndex;
-        var targetLanguage = this.supportedLanguages[index].id;
+        let index = event.target.selectedIndex;
+        var targetLanguage = supportedLanguages[index].id;
         globalSettings.language = targetLanguage;
+        setCookies("language", targetLanguage, { path: "/" });
+        console.log("Set cookie language to " + targetLanguage);
     }
 
-    render()
-    {
-        return (
-            <select onChange={this.changeLanguage}>
-                {this.supportedLanguages.map(language => (
-                    <option value={language.id}>{language.name}</option>
-                ))}
-            </select>
-        );
-    }
+    return (
+        <select onChange={ChangeLanguage}>
+            {supportedLanguages.map(language => (
+                <option value={language.id}>{language.name}</option>
+            ))}
+        </select>
+    );
 }
+
+export default LanguageSwitcher;

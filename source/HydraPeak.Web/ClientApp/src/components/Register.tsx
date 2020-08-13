@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Register() {
+const Register = (props:any) => {
   const classes = useStyles();
 
   // use state hooks
@@ -155,3 +155,5 @@ export function Register() {
     </Container>
   );
 }
+
+export default Register;
