@@ -1,5 +1,5 @@
 {
-  "name": "hydra-peak",
+  "name": "wylde-mountain",
   "version": "1.0.0",
   "description": "Single-player MMO/web roguelike with persistence. Made in ASP.NET Core + React.",
   "main": "index.js",
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nightblade9/hydra-peak.git"
+    "url": "git+https://github.com/nightblade9/wylde-mountain.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nightblade9/hydra-peak/issues"
+    "url": "https://github.com/nightblade9/wylde-mountain/issues"
   },
-  "homepage": "https://github.com/nightblade9/hydra-peak#readme"
+  "homepage": "https://github.com/nightblade9/wylde-mountain#readme"
 }

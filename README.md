@@ -1,5 +1,5 @@
-# Hydra Peak
+# Wylde Mountain
 
-[![Build Status](https://travis-ci.org/nightblade9/hydra-peak.svg?branch=main)](https://travis-ci.org/nightblade9/hydra-peak)
+[![Build Status](https://travis-ci.org/nightblade9/wylde-mountain.svg?branch=main)](https://travis-ci.org/nightblade9/wylde-mountain)
 
-Single-player MMO/web roguelike with persistence. Made in ASP.NET Core + React.
+Single-player web roguelike with persistence. Made in ASP.NET Core + React.

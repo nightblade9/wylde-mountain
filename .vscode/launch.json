@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/source/HydraPeak.Web/bin/Debug/netcoreapp3.1/HydraPeak.Web.dll",
+            "program": "${workspaceFolder}/source/WyldeMountain.Web/bin/Debug/netcoreapp3.1/WyldeMountain.Web.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/source/HydraPeak.Web",
+            "cwd": "${workspaceFolder}/source/WyldeMountain.Web",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",

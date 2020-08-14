@@ -1,10 +1,10 @@
 dist: xenial
 language: csharp
-solution: HydraPeak.sln
+solution: WyldeMountain.sln
 mono: none
 dotnet: 3.1.100
 script:
   - cd source
   - dotnet test
-  - cd HydraPeak.Web/ClientApp
+  - cd WyldeMountain.Web/ClientApp
   - npm test
