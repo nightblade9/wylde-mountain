@@ -1,14 +1,8 @@
 using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using WyldeMountain.Web.DataAccess.Repositories;
-using WyldeMountain.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
-using MongoDB.Driver;
+using WyldeMountain.Web.Models.Authentication;
 
 namespace WyldeMountain.Web.Controllers
 {

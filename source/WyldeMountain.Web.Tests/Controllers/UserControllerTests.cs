@@ -1,12 +1,12 @@
 using System;
 using WyldeMountain.Web.Controllers;
 using WyldeMountain.Web.DataAccess.Repositories;
-using WyldeMountain.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Moq;
 using NUnit.Framework;
+using WyldeMountain.Web.Models.Authentication;
 
 namespace WyldeMountain.Web.Tests.Controllers
 {

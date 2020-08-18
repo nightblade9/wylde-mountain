@@ -1,6 +1,6 @@
 using Mongo.Migration.Documents;
 
-namespace WyldeMountain.Web.Models
+namespace WyldeMountain.Web.Models.Authentication
 {
     /// <summary>
     /// A registered user (sans credentials, which are in the Auth class).

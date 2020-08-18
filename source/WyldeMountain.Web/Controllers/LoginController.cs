@@ -3,11 +3,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WyldeMountain.Web.DataAccess.Repositories;
-using WyldeMountain.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using WyldeMountain.Web.Models.Authentication;
 
 namespace WyldeMountain.Web.Controllers
 {

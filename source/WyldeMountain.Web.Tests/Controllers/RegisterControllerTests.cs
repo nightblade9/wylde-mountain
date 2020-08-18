@@ -2,13 +2,13 @@ using System;
 using System.Linq.Expressions;
 using WyldeMountain.Web.Controllers;
 using WyldeMountain.Web.DataAccess.Repositories;
-using WyldeMountain.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Moq;
 using NUnit.Framework;
 using static WyldeMountain.Web.Controllers.RegisterController;
+using WyldeMountain.Web.Models.Authentication;
 
 namespace WyldeMountain.Web.Tests.Controllers
 {
