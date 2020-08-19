@@ -2,6 +2,7 @@ using System;
 using WyldeMountain.Web.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WyldeMountain.Web.Models.Authentication;
 
 namespace WyldeMountain.Web.Controllers
 {
@@ -19,9 +20,11 @@ namespace WyldeMountain.Web.Controllers
             this.genericRepository = genericRepository;
         }
 
-        /// <summary>Log in.</summary>
+        /// <summary>
+        /// Returns a bit of info about the currently logged-in user. 400s if the user isn't logged in.
+        /// </summary>
         [HttpGet]
-        public ActionResult<string> WhoAmI()
+        public ActionResult<User> WhoAmI()
         {
             var currentUser = this.CurrentUser;
             if (currentUser != null)

@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using WyldeMountain.Web.DataAccess.Repositories;
 using WyldeMountain.Web.Models.Authentication;
+using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Controllers
 {
@@ -39,7 +40,15 @@ namespace WyldeMountain.Web.Controllers
                     {
                         var claims = jwtSecurityToken.Claims;
                         var email = claims.Single(c => c.Type == "email").Value;
-                        return genericRepository.SingleOrDefault<User>(u => u.EmailAddress.ToUpperInvariant() == email.ToUpperInvariant());
+
+                        // TODO: replace with a join (whatever it's called in Mongo)
+                        var user = genericRepository.SingleOrDefault<User>(u => u.EmailAddress.ToUpperInvariant() == email.ToUpperInvariant());
+                        if (user != null)
+                        {
+                            user.Dungeon = genericRepository.SingleOrDefault<Dungeon>(d => d.UserId == user.Id);
+                        }
+                        
+                        this.currentUser = user;
                     }
                 }
 

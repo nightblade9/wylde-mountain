@@ -1,4 +1,5 @@
 using Mongo.Migration.Documents;
+using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Models.Authentication
 {
@@ -8,5 +9,6 @@ namespace WyldeMountain.Web.Models.Authentication
     public class User : HasId
     {
         public string EmailAddress { get; set; }
+        public Dungeon Dungeon { get; set; }
     }
 }
