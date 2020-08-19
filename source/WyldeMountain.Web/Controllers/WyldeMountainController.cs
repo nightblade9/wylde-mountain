@@ -11,7 +11,7 @@ namespace WyldeMountain.Web.Controllers
     public class WyldeMountainController : ControllerBase
     {
         private readonly IGenericRepository genericRepository;
-        private User currentUser;
+        private User _currentUser;
 
         public WyldeMountainController(IGenericRepository genericRepository)
         {
@@ -26,10 +26,10 @@ namespace WyldeMountain.Web.Controllers
         {
             get
             {
-                if (currentUser != null)
+                if (_currentUser != null)
                 {
                     // Already loaded, reuse
-                    return currentUser;
+                    return _currentUser;
                 }
 
                 if (HttpContext.Request.Headers.ContainsKey("Bearer") && HttpContext.Request.Headers["Bearer"][0] != "null")
@@ -48,7 +48,8 @@ namespace WyldeMountain.Web.Controllers
                             user.Dungeon = genericRepository.SingleOrDefault<Dungeon>(d => d.UserId == user.Id);
                         }
                         
-                        this.currentUser = user;
+                        this._currentUser = user;
+                        return user;
                     }
                 }
 
@@ -57,7 +58,7 @@ namespace WyldeMountain.Web.Controllers
             internal set
             {
                 // For unit testing
-                currentUser = value;
+                _currentUser = value;
             }
         }
     }

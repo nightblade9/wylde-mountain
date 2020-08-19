@@ -26,10 +26,9 @@ namespace WyldeMountain.Web.Controllers
         [HttpGet]
         public ActionResult<User> WhoAmI()
         {
-            var currentUser = this.CurrentUser;
-            if (currentUser != null)
+            if (this.CurrentUser != null)
             {
-                return Ok(currentUser);
+                return Ok(this.CurrentUser);
             }
             else
             {
