@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
+import { getCurrentUser } from '../helpers/CurrentUser';
 
 export class Home extends Component {
 
@@ -7,8 +8,13 @@ export class Home extends Component {
   {
     if (localStorage.getItem("userInfo") != null)
     {
+      var user = getCurrentUser();
+      console.log("U=" + JSON.stringify(user));
+
       return (
-        <h1>Welcome!</h1>
+        <div>
+          <h1>Welcome!</h1>
+        </div>
       );
     }
     else

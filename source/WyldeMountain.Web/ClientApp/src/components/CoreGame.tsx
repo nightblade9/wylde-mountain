@@ -57,6 +57,7 @@ class CoreGame extends Component<IProps, IState> {
     );
   }
 
+  // TODO: remove, we refactored this into Identity.tsx
   async fetchUser() {
     const headers:Record<string, string> = {
       "Bearer" : localStorage.getItem("userInfo")!
