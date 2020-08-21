@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '@material-ui/core';
-import { isUserAuthenticated, getCurrentUser, getCurrentUserAsync } from '../helpers/CurrentUser';
+import { isUserAuthenticated, getCurrentUserAsync } from '../helpers/CurrentUser';
+import { IUser } from '../interfaces/IUser';
 
 export const Home = () =>
 {
-  const [user, setUser] = useState({});
-  const [gotUser, setGotUser] = useState(false);
+  const [user, setUser] = useState<IUser | undefined>(undefined);
+  const [fetchedUser, setFetchedUser] = useState(false);
 
-  // TODO: this stinks, but is the only non-race-condition way I could get user-fetching to work...
   useEffect(() => {
     const fetchUser = async () => {
-      if (!gotUser)
+      if (!fetchedUser)
       {
-        setGotUser(true);
-        console.log("1) Getting user ");
-        var temp = await getCurrentUserAsync();
-        console.log("1) Got 'em: " + JSON.stringify(temp));
-        setUser(temp)
+        setFetchedUser(true);
+        var data = await getCurrentUserAsync();
+        setUser(data);
       }
     }
 
@@ -27,7 +25,7 @@ export const Home = () =>
   {
     return (
       <div>
-        <h1>Welcome!</h1>
+        <h1>Welcome {user?.emailAddress}!</h1>
       </div>
     );
   }
