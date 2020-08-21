@@ -5,6 +5,7 @@ export function isUserAuthenticated()
 
 export async function getCurrentUserAsync()
 {
+  console.log("2) starting async");
   const headers:Record<string, string> = {
     "Bearer" : localStorage.getItem("userInfo")!
   };
@@ -16,7 +17,7 @@ export async function getCurrentUserAsync()
   if (response.ok)
   {
     const data = await response.json();
-    console.log("Got 'em: " + JSON.stringify(data));
+    console.log("2) Get async: " + JSON.stringify(data));
     return data;
   }
 }
@@ -27,7 +28,7 @@ export function getCurrentUser()
     "Bearer" : localStorage.getItem("userInfo")!
   };
 
-  const response = fetch('api/User', {
+  fetch('api/User', {
     headers: headers
   })
   .then(response =>
@@ -39,7 +40,6 @@ export function getCurrentUser()
   })
   .then(data =>
   {
-    console.log("Got em: " + JSON.stringify(data));
     return data;
   });
 }
