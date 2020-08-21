@@ -3,6 +3,7 @@ using WyldeMountain.Web.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WyldeMountain.Web.Models.Authentication;
+using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Controllers
 {
@@ -22,12 +23,14 @@ namespace WyldeMountain.Web.Controllers
 
         /// <summary>
         /// Returns a bit of info about the currently logged-in user. 400s if the user isn't logged in.
+        /// This is called pretty much in every React front-end component to get the logged-in user.
         /// </summary>
         [HttpGet]
         public ActionResult<User> WhoAmI()
         {
             if (this.CurrentUser != null)
             {
+                this.CurrentUser.Dungeon = genericRepository.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
                 return Ok(this.CurrentUser);
             }
             else

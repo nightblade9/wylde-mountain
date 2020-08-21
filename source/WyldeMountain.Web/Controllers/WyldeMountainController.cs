@@ -21,6 +21,7 @@ namespace WyldeMountain.Web.Controllers
         /// <summary>
         /// Returns the current user (from the JWT Bearer token). If there is no bearer token, or the
         /// user isn't in the database, or the token is invalid, then it returns null.
+        /// Returns *just* the current user, no extended properties (eg. dungeon) - that's done in /User/WhoAmI
         /// </summary>
         public virtual User CurrentUser
         {
@@ -41,13 +42,7 @@ namespace WyldeMountain.Web.Controllers
                         var claims = jwtSecurityToken.Claims;
                         var email = claims.Single(c => c.Type == "email").Value;
 
-                        // TODO: replace with a join (whatever it's called in Mongo)
                         var user = genericRepository.SingleOrDefault<User>(u => u.EmailAddress.ToUpperInvariant() == email.ToUpperInvariant());
-                        if (user != null)
-                        {
-                            user.Dungeon = genericRepository.SingleOrDefault<Dungeon>(d => d.UserId == user.Id);
-                        }
-                        
                         this._currentUser = user;
                         return user;
                     }
