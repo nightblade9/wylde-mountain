@@ -1,3 +1,8 @@
+export function isUserAuthenticated()
+{
+  return localStorage.getItem("userInfo") != null;
+}
+
 export async function getCurrentUserAsync()
 {
   const headers:Record<string, string> = {

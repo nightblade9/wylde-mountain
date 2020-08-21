@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
-import { getCurrentUser } from '../helpers/CurrentUser';
+import { isUserAuthenticated, getCurrentUser } from '../helpers/CurrentUser';
 
 export class Home extends Component {
 
   render()
   {
-    if (localStorage.getItem("userInfo") != null)
+    if (isUserAuthenticated())
     {
       var user = getCurrentUser();
       console.log("U=" + JSON.stringify(user));
