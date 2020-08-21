@@ -26,6 +26,7 @@ export const Home = () =>
     return (
       <div>
         <h1>Welcome {user?.emailAddress}!</h1>
+        <p>You are {user?.dungeon == null ? "awaiting your next adventure!" : "in a dungeon!"}</p>
       </div>
     );
   }
