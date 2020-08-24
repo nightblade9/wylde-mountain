@@ -26,7 +26,7 @@ const LanguageSwitcher = (props:any) =>
     return (
         <select onChange={ChangeLanguage}>
             {supportedLanguages.map(language => (
-                <option value={language.id}>{language.name}</option>
+                <option key={language.id} value={language.id}>{language.name}</option>
             ))}
         </select>
     );
