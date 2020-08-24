@@ -10,7 +10,11 @@ export const Home = () =>
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (!fetchedUser)
+      if (!isUserAuthenticated())
+      {
+        setFetchedUser(true); // don't keep fetching
+      }
+      else if (!fetchedUser)
       {
         setFetchedUser(true);
         var data = await getCurrentUserAsync();
