@@ -10,6 +10,7 @@ import Register from './components/Register';
 import { Login } from './components/Login';
 import { CoreGame } from './components/CoreGame';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import BeginAdventure from './components/BeginAdventure';
 
 import { IGlobalSettings } from  './interfaces/IGlobalSettings';
 
@@ -39,6 +40,7 @@ const App = (props:any) =>
       <Route path='/counter' component={Counter} />
       <Route path='/fetch-data' component={FetchData} />
       <Route path='/core-game' component={CoreGame} />
+      <Route path='/begin-adventure' component={BeginAdventure} />
     </Layout>
   );
 };

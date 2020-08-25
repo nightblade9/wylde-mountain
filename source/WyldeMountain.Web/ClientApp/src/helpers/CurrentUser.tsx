@@ -6,7 +6,7 @@ export function isUserAuthenticated()
 export async function getCurrentUserAsync()
 {
   const headers:Record<string, string> = {
-    "Bearer" : localStorage.getItem("userInfo")!
+    "Bearer" : localStorage.getItem("userInfo") || ""
   };
 
   const response = await fetch('api/User', {

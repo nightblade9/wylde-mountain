@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Typography } from '@material-ui/core';
 import { isUserAuthenticated, getCurrentUserAsync } from '../helpers/CurrentUser';
 import { IUser } from '../interfaces/IUser';
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export const Home = () =>
 {
@@ -27,10 +29,21 @@ export const Home = () =>
 
   if (isUserAuthenticated())
   {
+    if (user?.dungeon != null)
+    {
+      return (
+        <Redirect to="/core-game" /> 
+      );
+    }
+
     return (
       <div>
         <h1>Welcome {user?.emailAddress}!</h1>
-        <p>You are {user?.dungeon == null ? "awaiting your next adventure!" : "in a dungeon!"}</p>
+        <p>
+          You are awaiting your next adventure! 
+          <Link to="/begin-adventure">Journey to Wylde Mountain
+          </Link>
+        </p>
       </div>
     );
   }
