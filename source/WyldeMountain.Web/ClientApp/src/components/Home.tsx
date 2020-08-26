@@ -4,11 +4,19 @@ import { isUserAuthenticated, getCurrentUserAsync } from '../helpers/CurrentUser
 import { IUser } from '../interfaces/IUser';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import LocalizedStrings from 'react-localization';
+import { globalSettings } from '../App';
 
 export const Home = () =>
 {
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [fetchedUser, setFetchedUser] = useState(false);
+
+  const languageStrings = new LocalizedStrings({
+    "en": require('~/../../resources/components/Home-en.json'),
+    "ar": require('~/../../resources/components/Home-ar.json')
+  });
+  languageStrings.setLanguage(globalSettings.language);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -38,10 +46,10 @@ export const Home = () =>
 
     return (
       <div>
-        <h1>Welcome {user?.emailAddress}!</h1>
+        <h1>{languageStrings.formatString(languageStrings.welcome, { userName: user?.emailAddress })}</h1>
         <p>
-          You are awaiting your next adventure! &nbsp;
-          <Link to="/begin-adventure">Journey to Wylde Mountain
+          {languageStrings.awaitingAdventure} &nbsp;
+          <Link to="/begin-adventure">{languageStrings.beginJourney}
           </Link>
         </p>
       </div>

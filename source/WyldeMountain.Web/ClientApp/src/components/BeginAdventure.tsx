@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router';
 
 const BeginAdventure = (props:any) => {
     useEffect(() => {
