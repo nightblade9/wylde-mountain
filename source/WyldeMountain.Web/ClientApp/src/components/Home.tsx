@@ -40,7 +40,7 @@ export const Home = () =>
       <div>
         <h1>Welcome {user?.emailAddress}!</h1>
         <p>
-          You are awaiting your next adventure! 
+          You are awaiting your next adventure! &nbsp;
           <Link to="/begin-adventure">Journey to Wylde Mountain
           </Link>
         </p>

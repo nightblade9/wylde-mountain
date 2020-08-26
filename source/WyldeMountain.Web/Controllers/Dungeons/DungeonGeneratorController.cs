@@ -2,7 +2,6 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WyldeMountain.Web.DataAccess.Repositories;
-using WyldeMountain.Web.Http;
 using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Controllers.Dungeons
@@ -21,19 +20,17 @@ namespace WyldeMountain.Web.Controllers.Dungeons
             _genericRepo = genericRepository;
         }
 
-        [AjaxOnly]
         [HttpPost]
         public ActionResult Generate()
         {
             // Generate the first floor. We don't keep any metadata on dungeons right now.
-            var existingDungeon = _genericRepo.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
-            if (existingDungeon != null)
+            if (this.CurrentUser.Dungeon != null)
             {
                 return BadRequest(new InvalidOperationException("Player is already in a dungeon."));
             }
             
-            var dungeon = new Dungeon() { UserId = this.CurrentUser.Id, CurrentFloor = new Floor() };
-            _genericRepo.Insert(dungeon);
+            CurrentUser.Dungeon = new Dungeon() { CurrentFloor = new Floor() };
+            _genericRepo.Update(this.CurrentUser);
 
             return Ok();
         }

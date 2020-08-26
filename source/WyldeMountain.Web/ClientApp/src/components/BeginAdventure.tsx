@@ -8,7 +8,7 @@ const BeginAdventure = (props:any) => {
                 "Bearer" : localStorage.getItem("userInfo") || ""
             };
         
-            const response = await fetch('api/Dungeon/Generate', {
+            const response = await fetch('api/DungeonGenerator', {
                 headers: headers,
                 method: "POST"
             });

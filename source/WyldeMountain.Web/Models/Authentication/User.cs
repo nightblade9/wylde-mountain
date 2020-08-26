@@ -1,4 +1,3 @@
-using Mongo.Migration.Documents;
 using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Models.Authentication

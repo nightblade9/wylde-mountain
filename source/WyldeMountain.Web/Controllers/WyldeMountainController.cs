@@ -4,7 +4,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using WyldeMountain.Web.DataAccess.Repositories;
 using WyldeMountain.Web.Models.Authentication;
-using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Controllers
 {

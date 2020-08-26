@@ -30,7 +30,6 @@ namespace WyldeMountain.Web.Controllers
         {
             if (this.CurrentUser != null)
             {
-                this.CurrentUser.Dungeon = genericRepository.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
                 return Ok(this.CurrentUser);
             }
             else
