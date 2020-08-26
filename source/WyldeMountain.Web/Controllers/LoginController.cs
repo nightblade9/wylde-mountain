@@ -41,8 +41,8 @@ namespace WyldeMountain.Web.Controllers
             }
 
             var userCredentials = this.genericRepository.SingleOrDefault<Auth>(a => a.UserId == user.Id);
-            var hashedPassword = plainTextPassword;
-            if (userCredentials == null || userCredentials.HashedPassword != hashedPassword)
+            var hash = userCredentials.HashedPasswordWithSalt;
+            if (userCredentials == null || !BCrypt.Net.BCrypt.Verify(plainTextPassword, hash))
             {
                 return Unauthorized(new ArgumentException(nameof(emailAddress)));
             }

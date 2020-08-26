@@ -39,7 +39,7 @@ namespace WyldeMountain.Web.Tests.Controllers
             repository.Setup(a => a.Insert(It.IsAny<Auth>())).Callback<Auth>((auth) =>
             {
                 Assert.That(auth, Is.Not.Null);
-                Assert.That(auth.HashedPassword, Is.EqualTo(expectedPassword));
+                Assert.That(auth.HashedPasswordWithSalt, Is.EqualTo(expectedPassword));
             });
 
             var controller = new RegisterController(new Mock<ILogger<RegisterController>>().Object, repository.Object);

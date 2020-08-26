@@ -7,7 +7,6 @@ namespace WyldeMountain.Web.Models.Authentication
     public class Auth : HasId
     {
         public ObjectId UserId { get; set; }
-        public string Salt { get; set; }
-        public string HashedPassword { get; set; }
+        public string HashedPasswordWithSalt { get; set; }
     }
 }

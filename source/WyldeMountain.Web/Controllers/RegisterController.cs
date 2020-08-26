@@ -1,7 +1,7 @@
 using System;
-using WyldeMountain.Web.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WyldeMountain.Web.DataAccess.Repositories;
 using WyldeMountain.Web.Models.Authentication;
 
 namespace WyldeMountain.Web.Controllers
@@ -41,7 +41,11 @@ namespace WyldeMountain.Web.Controllers
             this.genericRepository.Insert<User>(newUser);
             newUser = this.genericRepository.SingleOrDefault<User>(u => u.EmailAddress == emailAddress); // Load back with ID
 
-            var auth = new Auth() { UserId = newUser.Id, HashedPassword = plainTextPassword, Salt = "TODO" };
+            // As of writing, BCrypt.Net-Next relies on BlowFish, which has no cryptoanalysis attacks, but isn't recommended.
+            // Schneier and others recommend TwoFish; doesn't seem to be a way to use it in this package, though.
+            // You may want to swap out for a different package or something.
+            var hash = BCrypt.Net.BCrypt.HashPassword(plainTextPassword); // Includes salt
+            var auth = new Auth() { UserId = newUser.Id, HashedPasswordWithSalt = hash };
             this.genericRepository.Insert<Auth>(auth);
 
             return Ok(newUser);

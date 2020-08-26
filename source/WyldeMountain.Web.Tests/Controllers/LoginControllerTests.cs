@@ -25,7 +25,7 @@ namespace WyldeMountain.Web.Tests.Controllers
             var request = new LoginRequest() { EmailAddress = expectedEmail, Password = expectedPassword };
 
             var existingUser = new User() { EmailAddress = expectedEmail, Id = new MongoDB.Bson.ObjectId() };
-            var credentials = new Auth() { UserId = existingUser.Id, HashedPassword = expectedPassword };
+            var credentials = new Auth() { UserId = existingUser.Id, HashedPasswordWithSalt = expectedPassword };
             var repository = new Mock<IGenericRepository>();
             repository.Setup(u => u.SingleOrDefault(It.IsAny<Expression<Func<User, bool>>>())).Returns(existingUser);
             repository.Setup(a => a.SingleOrDefault(It.IsAny<Expression<Func<Auth, bool>>>())).Returns(credentials);
@@ -74,7 +74,7 @@ namespace WyldeMountain.Web.Tests.Controllers
             var request = new LoginRequest() { EmailAddress = expectedEmail, Password = "wrong password!" };
 
             var existingUser = new User() { EmailAddress = expectedEmail, Id = new MongoDB.Bson.ObjectId() };
-            var credentials = new Auth() { UserId = existingUser.Id, HashedPassword = expectedPassword };
+            var credentials = new Auth() { UserId = existingUser.Id, HashedPasswordWithSalt = expectedPassword };
 
             var repository = new Mock<IGenericRepository>();
             repository.Setup(u => u.SingleOrDefault<User>(It.IsAny<Expression<Func<User, bool>>>())).Returns(existingUser);
