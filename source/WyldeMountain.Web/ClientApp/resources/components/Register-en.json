@@ -1,0 +1,9 @@
+{
+    "registrationFailed": "Registration failed!",
+    "registrationSucceeded": "Registration successful!",
+    "userName": "User name",
+    "emailAddress": "Email address",
+    "password": "Password",
+    "register": "Register",
+    "signIn": "Already have an account? Sign in"
+}

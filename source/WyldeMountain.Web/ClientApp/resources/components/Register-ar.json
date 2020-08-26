@@ -1,0 +1,9 @@
+{
+    "registrationFailed": "فشل في التسجيل!",
+    "registrationSucceeded": "تم التسجيل بنجاح!",
+    "userName": "اسم المستخدم",
+    "emailAddress": "عنوان البريد الالكترونى",
+    "password": "كلمه السر",
+    "register": "تسجيل",
+    "signIn": "هل لديك حساب؟ تسجيل الدخول"
+}
