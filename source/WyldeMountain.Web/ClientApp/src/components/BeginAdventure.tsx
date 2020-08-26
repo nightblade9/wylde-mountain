@@ -15,9 +15,7 @@ const BeginAdventure = (props:any) => {
             
             if (response.ok)
             {
-                return (
-                    <Redirect to="/core-game" />
-                );
+                props.history.push("/core-game");
             }
         }
 
