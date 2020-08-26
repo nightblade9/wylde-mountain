@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WyldeMountain.Web.DataAccess.Repositories;
@@ -6,6 +7,7 @@ using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Controllers.Dungeons
 {
+    [Authorize]
     [ApiController]
     [Route("/api/[controller]")]
     public class DungeonGeneratorController : WyldeMountainController
