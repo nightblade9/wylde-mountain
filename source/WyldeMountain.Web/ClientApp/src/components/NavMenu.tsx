@@ -62,7 +62,7 @@ export function NavMenu() {
           {/* Title */}
           <Typography variant="h6" className={classes.title}>
             <Link to="/" className={classes.navLink}>
-              Hydra Peak
+              Wylde Mountain {/* TODO: localize */}
             </Link>
           </Typography>
 

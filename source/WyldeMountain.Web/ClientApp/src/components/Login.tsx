@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, Component } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { Container, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, makeStyles, Link } from '@material-ui/core';
 import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons'
@@ -39,6 +39,7 @@ export function Login() {
   // use state hooks
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [lastMessage, setMessage] = useState<string>("");
 
   // for routing
   const history = useHistory();
@@ -66,12 +67,15 @@ export function Login() {
         }
       })
       .then(data => {
-        console.log(languageStrings.loginSucceeded + ": " + JSON.stringify(data));
+        setMessage(languageStrings.loginSucceeded);
         var token = data.token;
         localStorage.setItem("userInfo", token);
         history.push("/");
       })
-      .catch(e => console.error("Login failed: " + e));
+      .catch(e => {
+        // e is set to the generic message from a few lines up (.then(response => ...))
+        setMessage(languageStrings.loginFailed)
+      });
   }
 
   return (
@@ -83,6 +87,7 @@ export function Login() {
         <Typography component="h1" variant="h5">
           {languageStrings.login}
       </Typography>
+        <div>{lastMessage}</div>
         <form className={classes.form} noValidate onSubmit={onSumbit}>
           <TextField
             variant="outlined"
