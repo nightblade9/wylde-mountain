@@ -21,10 +21,10 @@ namespace WyldeMountain.Web.Tests.Controllers
         {
             // Arrange
             const string expectedEmail = "test@test.com";
-            const string expectedPassword = "password";
+            const string plainTextPassword = "password";
 
             User expectedUser = null;
-            var request = new RegistrationRequest() { EmailAddress = expectedEmail, Password = expectedPassword };
+            var request = new RegistrationRequest() { EmailAddress = expectedEmail, Password = plainTextPassword };
 
             var repository = new Mock<IGenericRepository>();
             repository.Setup(u => u.Insert(It.IsAny<User>())).Callback<User>((user) =>
@@ -39,7 +39,9 @@ namespace WyldeMountain.Web.Tests.Controllers
             repository.Setup(a => a.Insert(It.IsAny<Auth>())).Callback<Auth>((auth) =>
             {
                 Assert.That(auth, Is.Not.Null);
-                Assert.That(auth.HashedPasswordWithSalt, Is.EqualTo(expectedPassword));
+                Assert.That(auth.HashedPasswordWithSalt, Is.Not.Null);
+                Assert.That(auth.HashedPasswordWithSalt, Is.Not.Empty);
+                Assert.That(auth.HashedPasswordWithSalt.StartsWith("$2a")); // BCrypt password
             });
 
             var controller = new RegisterController(new Mock<ILogger<RegisterController>>().Object, repository.Object);
