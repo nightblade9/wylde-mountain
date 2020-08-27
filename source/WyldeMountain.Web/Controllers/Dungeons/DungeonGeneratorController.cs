@@ -1,5 +1,4 @@
 using System;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WyldeMountain.Web.DataAccess.Repositories;
@@ -7,7 +6,6 @@ using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Controllers.Dungeons
 {
-    [Authorize]
     [ApiController]
     [Route("/api/[controller]")]
     public class DungeonGeneratorController : WyldeMountainController
@@ -25,13 +23,18 @@ namespace WyldeMountain.Web.Controllers.Dungeons
         [HttpPost]
         public ActionResult Generate()
         {
+            if (this.CurrentUser == null)
+            {
+                return Unauthorized();
+            }
+
             // Generate the first floor. We don't keep any metadata on dungeons right now.
             if (this.CurrentUser.Dungeon != null)
             {
                 return BadRequest(new InvalidOperationException("Player is already in a dungeon."));
             }
             
-            CurrentUser.Dungeon = new Dungeon() { CurrentFloor = new Floor() };
+            CurrentUser.Dungeon = new Dungeon() { CurrentFloor = new Floor(1) };
             _genericRepo.Update(this.CurrentUser);
 
             return Ok();
