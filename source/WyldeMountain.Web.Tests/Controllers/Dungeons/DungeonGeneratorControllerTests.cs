@@ -17,7 +17,7 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
         {
             // Arrange
             var controller = new DungeonGeneratorController(new Mock<ILogger<DungeonGeneratorController>>().Object, new Mock<IGenericRepository>().Object);
-            controller.CurrentUser = new Models.Authentication.User(); // no dungeon
+            controller.CurrentUser = new User(); // no dungeon
 
             // Act
             var response = controller.Generate();
