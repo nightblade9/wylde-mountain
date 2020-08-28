@@ -9,7 +9,7 @@ export interface IDungeon
 export interface IFloor
 {
     floorNumber: number,
-    events: IDungeonEvent[]
+    events: IDungeonEvent[][]
 }
 
 export interface IDungeonEvent
