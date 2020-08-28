@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using WyldeMountain.Web.Models.Dungeons.Events;
 
 namespace WyldeMountain.Web.Models.Dungeons
 {
@@ -9,9 +8,8 @@ namespace WyldeMountain.Web.Models.Dungeons
         private Random _random = new Random();
         
         public uint FloorNumber { get; set; }
-
         // Linked list of events. User only sees the first in each list.
-        public List<List<AbstractEvent>> Events { get; set; } = new List<List<AbstractEvent>>();
+        public List<List<DungeonEvent>> Events { get; set; } = new List<List<DungeonEvent>>();
 
         public Floor(uint floorNumber, int seed = 0)
         {
@@ -23,12 +21,12 @@ namespace WyldeMountain.Web.Models.Dungeons
             this.FloorNumber = floorNumber;
             var numChoices = _random.Next(3, 5); // 3 or 4 forks
             var numEvents = _random.Next(8, 11);
-            var generated = new List<Battle>();
+            var generated = new List<DungeonEvent>();
 
             // Seed choices with monsters
             for (var i = 0; i < numChoices; i++)
             {
-                var list = new List<AbstractEvent>();
+                var list = new List<DungeonEvent>();
                 list.Add(this.GenerateBattle());
                 this.Events.Add(list);
             }
@@ -42,10 +40,10 @@ namespace WyldeMountain.Web.Models.Dungeons
             }
         }
 
-        private Battle GenerateBattle()
+        private DungeonEvent GenerateBattle()
         {
             var monster = _random.Next(100) <= 50 ? "Dirtoad" : "Ponderon";
-            return new Battle(monster);
+            return new DungeonEvent("Battle", monster);
         }
     }
 }

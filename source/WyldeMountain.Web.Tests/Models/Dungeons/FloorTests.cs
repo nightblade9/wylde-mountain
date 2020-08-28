@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using WyldeMountain.Web.Models.Dungeons;
-using WyldeMountain.Web.Models.Dungeons.Events;
 
 namespace WyldeMountain.Web.Tests.Models.Dungeons
 {
@@ -20,7 +19,7 @@ namespace WyldeMountain.Web.Tests.Models.Dungeons
             var actualMonsters = new List<string>();
             foreach (var choice in floor.Events)
             {
-                actualMonsters.AddRange(choice.Select(c => (c as Battle)?.MonsterName));
+                actualMonsters.AddRange(choice.Select(c => (c as DungeonEvent).Data));
             }
             
             Assert.That(actualMonsters.Any(m => m == "Dirtoad"));
