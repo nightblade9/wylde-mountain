@@ -15,7 +15,7 @@ export const CoreGame = () =>
     "en": require('~/../../resources/components/CoreGame-en.json'),
     "ar": require('~/../../resources/components/CoreGame-ar.json')
   });
-  languageStrings.setLanguage(globalSettings.language);  
+  languageStrings.setLanguage(globalSettings.language);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,8 +48,9 @@ export const CoreGame = () =>
     {
       const eventArray:IDungeonEvent[] = user.dungeon.currentFloor.events[i];
       const event:IDungeonEvent = eventArray[0]; // or null
-      finalHtml.push(<li key={"choice" + i}>
+      finalHtml.push(<li key={"choice" + i} >
         {event.eventType}: {event.data}
+          <button onClick={e => console.log("You clicked fight #" + i)}>interact</button>
       </li>)
     }
     return (
