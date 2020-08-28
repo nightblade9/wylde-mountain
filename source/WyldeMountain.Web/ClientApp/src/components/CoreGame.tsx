@@ -1,9 +1,8 @@
 import { globalSettings } from '../App';
-import { RequireAuthentication } from './Authentication/RequireAuthentication';
 import { getCurrentUserAndDungeonAsync, isUserAuthenticated } from '../helpers/CurrentUser';
 import { IUser } from '../interfaces/IUser';
-import { useEffect, useState } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import LocalizedStrings from 'react-localization';
 
 export const CoreGame = () =>
 {
@@ -11,11 +10,11 @@ export const CoreGame = () =>
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [fetchedUser, setFetchedUser] = useState(false);
 
-  // const languageStrings = new LocalizedStrings({
-  //   "en": require('~/../../resources/components/Home-en.json'),
-  //   "ar": require('~/../../resources/components/Home-ar.json')
-  // });
-  // languageStrings.setLanguage(globalSettings.language);  
+  const languageStrings = new LocalizedStrings({
+    "en": require('~/../../resources/components/CoreGame-en.json'),
+    "ar": require('~/../../resources/components/CoreGame-ar.json')
+  });
+  languageStrings.setLanguage(globalSettings.language);  
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -28,7 +27,6 @@ export const CoreGame = () =>
         setFetchedUser(true);
         var data = await getCurrentUserAndDungeonAsync();
         setUser(data);
-        console.log("I see you, eventz: " + JSON.stringify(data?.dungeon.currentFloor.events));
       }
     }
 
@@ -38,14 +36,14 @@ export const CoreGame = () =>
   if (user === undefined || user.dungeon === undefined)
   {
     return (
-      <div>loading</div>
+      <div>{languageStrings.loading}</div>
     );
   }
   else
   {
     return (
       <div>
-        <strong>You are on floor {user.dungeon.currentFloor.floorNumber}F</strong>
+        <strong>{languageStrings.formatString(languageStrings.floorIndicator, {"floorNumber": user.dungeon.currentFloor.floorNumber})}</strong>
       </div>
     );
   }
