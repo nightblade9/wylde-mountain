@@ -1,75 +1,52 @@
-import React, { Component } from 'react';
+import { globalSettings } from '../App';
 import { RequireAuthentication } from './Authentication/RequireAuthentication';
+import { getCurrentUserAndDungeonAsync, isUserAuthenticated } from '../helpers/CurrentUser';
 import { IUser } from '../interfaces/IUser';
-import JwtBody from '../interfaces/Jwt';
-import jwtDecode from 'jwt-decode';
+import { useEffect, useState } from 'react';
+import React from 'react';
 
-interface IProps {
-  token: string,
-}
+export const CoreGame = () =>
+{
+  
+  const [user, setUser] = useState<IUser | undefined>(undefined);
+  const [fetchedUser, setFetchedUser] = useState(false);
 
-interface IState {
-  user?: IUser,
-  isLoading: boolean,
-  userName: string,
-}
+  // const languageStrings = new LocalizedStrings({
+  //   "en": require('~/../../resources/components/Home-en.json'),
+  //   "ar": require('~/../../resources/components/Home-ar.json')
+  // });
+  // languageStrings.setLanguage(globalSettings.language);  
 
-class CoreGame extends Component<IProps, IState> {
-  static displayName = CoreGame.name;
-
-  constructor(props:IProps) {
-    super(props);
-
-    let userName = "";
-    let token = localStorage.getItem("userInfo");
-    if (token !=  null)
-    {
-      let decoded : JwtBody = jwtDecode(token);
-      userName = decoded.email;
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!isUserAuthenticated())
+      {
+        setFetchedUser(true); // don't keep fetching
+      }
+      else if (!fetchedUser)
+      {
+        setFetchedUser(true);
+        var data = await getCurrentUserAndDungeonAsync();
+        setUser(data);
+        console.log("I see you, eventz: " + JSON.stringify(data?.dungeon.currentFloor.events));
+      }
     }
 
-    this.state = { user: undefined, userName: userName, isLoading: true };
-  }
+    fetchUser();
+  });
 
-  componentDidMount() {
-    this.fetchUser();
-  }
-
-  render() {
-    let contents = this.state.isLoading
-      ? <p><em>Loading...</em></p>
-      : this.renderUserStats(this.state.user);
-
+  if (user === undefined || user.dungeon === undefined)
+  {
     return (
-      <div>
-        <RequireAuthentication />
-        <h1>{this.state.userName}'s Stats</h1>
-        {contents}
-        
-      </div>
+      <div>loading</div>
     );
   }
-
-  renderUserStats(user? : IUser) {
+  else
+  {
     return (
       <div>
+        <strong>You are on floor {user.dungeon.currentFloor.floorNumber}F</strong>
       </div>
     );
-  }
-
-  // TODO: remove, we refactored this into Identity.tsx
-  async fetchUser() {
-    const headers:Record<string, string> = {
-      "Bearer" : localStorage.getItem("userInfo")!
-    };
-
-    const response = await fetch('api/User', {
-      headers: headers
-    });
-
-    const data = await response.json();
-    this.setState({ user: data, isLoading: false });
   }
 }
-
-export { CoreGame };

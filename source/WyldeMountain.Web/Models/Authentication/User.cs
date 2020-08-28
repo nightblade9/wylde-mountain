@@ -8,6 +8,5 @@ namespace WyldeMountain.Web.Models.Authentication
     public class User : HasId
     {
         public string EmailAddress { get; set; }
-        public Dungeon Dungeon { get; set; }
     }
 }

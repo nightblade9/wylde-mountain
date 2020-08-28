@@ -28,14 +28,17 @@ namespace WyldeMountain.Web.Controllers.Dungeons
                 return Unauthorized();
             }
 
+            var existingDungeon = _genericRepo.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
+
             // Generate the first floor. We don't keep any metadata on dungeons right now.
-            if (this.CurrentUser.Dungeon != null)
+            if (existingDungeon != null)
             {
                 return BadRequest(new InvalidOperationException("Player is already in a dungeon."));
             }
             
-            CurrentUser.Dungeon = new Dungeon() { CurrentFloor = new Floor(1) };
-            _genericRepo.Update(this.CurrentUser);
+            var dungeon = new Dungeon() { CurrentFloor = new Floor(1) };
+            dungeon.UserId = CurrentUser.Id;
+            _genericRepo.Insert(dungeon);
 
             return Ok();
         }

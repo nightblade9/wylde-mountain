@@ -1,5 +1,8 @@
+using System;
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 using Moq;
 using NUnit.Framework;
 using WyldeMountain.Web.Controllers.Dungeons;
@@ -16,23 +19,35 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
         public void GenerateReturnsOkAndGeneratesDungeonIfTereIsNoExistingDungeon()
         {
             // Arrange
-            var controller = new DungeonGeneratorController(new Mock<ILogger<DungeonGeneratorController>>().Object, new Mock<IGenericRepository>().Object);
-            controller.CurrentUser = new User(); // no dungeon
+            var repository = new Mock<IGenericRepository>();
+            var userId = ObjectId.GenerateNewId();
+            Dungeon inserted = null;
+
+            var controller = new DungeonGeneratorController(new Mock<ILogger<DungeonGeneratorController>>().Object, repository.Object);
+            controller.CurrentUser = new User() { Id = userId };
+            repository.Setup(r => r.Insert(It.IsAny<Dungeon>())).Callback<Dungeon>((dungeon) => inserted = dungeon);
 
             // Act
             var response = controller.Generate();
 
             // Assert
             Assert.That(response, Is.TypeOf(typeof(OkResult)));
-            Assert.That(controller.CurrentUser.Dungeon, Is.Not.Null);
+            Assert.That(inserted, Is.Not.Null);
+            Assert.That(inserted.UserId, Is.EqualTo(userId));
         }
 
         [Test]
         public void GenerateReturnsBadRequestIfPlayerAlreadyHasDungeonInRepository()
         {
             // Arrange
-            var controller = new DungeonGeneratorController(new Mock<ILogger<DungeonGeneratorController>>().Object, new Mock<IGenericRepository>().Object);
-            controller.CurrentUser = new User() { Dungeon = new Dungeon() };
+            var repository = new Mock<IGenericRepository>();
+            var userId = ObjectId.GenerateNewId();
+            var dungeon = new Dungeon() { UserId = userId };
+
+            var controller = new DungeonGeneratorController(new Mock<ILogger<DungeonGeneratorController>>().Object, repository.Object);
+            controller.CurrentUser = new User() { Id = ObjectId.GenerateNewId() };
+
+            repository.Setup(r => r.SingleOrDefault<Dungeon>(It.IsAny<Expression<Func<Dungeon, bool>>>())).Returns(dungeon);
 
             // Act
             var response = controller.Generate();

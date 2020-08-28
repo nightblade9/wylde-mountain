@@ -9,5 +9,12 @@ export interface IDungeon
 export interface IFloor
 {
     id: any,
-    floorNumber: number
+    floorNumber: number,
+    events: IDungeonEvent[]
+}
+
+export interface IDungeonEvent
+{
+    eventType: string,
+    data: string
 }

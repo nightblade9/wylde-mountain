@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Typography } from '@material-ui/core';
-import { isUserAuthenticated, getCurrentUserAsync } from '../helpers/CurrentUser';
+import { globalSettings } from '../App';
+import { isUserAuthenticated, getCurrentUserAsync, getCurrentUserAndDungeonAsync } from '../helpers/CurrentUser';
+import { IDungeon } from '../interfaces/IDungeon';
 import { IUser } from '../interfaces/IUser';
+import { Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import LocalizedStrings from 'react-localization';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-import LocalizedStrings from 'react-localization';
-import { globalSettings } from '../App';
 
 export const Home = () =>
 {
@@ -27,7 +28,7 @@ export const Home = () =>
       else if (!fetchedUser)
       {
         setFetchedUser(true);
-        var data = await getCurrentUserAsync();
+        var data = await getCurrentUserAndDungeonAsync();
         setUser(data);
       }
     }

@@ -1,5 +1,3 @@
-using MongoDB.Bson.Serialization.Attributes;
-
 namespace WyldeMountain.Web.Models.Dungeons
 {
     public class DungeonEvent
