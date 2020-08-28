@@ -42,17 +42,23 @@ export const CoreGame = () =>
   }
   else
   {
+    const finalHtml = [];
+    
+    for (let i = 0; i < user.dungeon.currentFloor.events.length; i++)
+    {
+      const eventArray:IDungeonEvent[] = user.dungeon.currentFloor.events[i];
+      const event:IDungeonEvent = eventArray[0]; // or null
+      finalHtml.push(<li key={"choice" + i}>
+        {event.eventType}: {event.data}
+      </li>)
+    }
     return (
       <React.Fragment>
         <div>
           <p>{languageStrings.formatString(languageStrings.floorIndicator, {"floorNumber": user.dungeon.currentFloor.floorNumber})}</p>
-          <ul>
-            {user.dungeon.currentFloor.events.map(e => (
-              <li /*key={listitem.id}*/>
-                {e[0].eventType}: {e[0].data}
-              </li>
-            ))}
-          </ul>
+          <ol>
+            {finalHtml}
+          </ol>
         </div>
       </React.Fragment>
     );
