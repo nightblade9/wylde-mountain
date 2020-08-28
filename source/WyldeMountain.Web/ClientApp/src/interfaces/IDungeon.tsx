@@ -8,7 +8,6 @@ export interface IDungeon
 
 export interface IFloor
 {
-    id: any,
     floorNumber: number,
     events: IDungeonEvent[]
 }
