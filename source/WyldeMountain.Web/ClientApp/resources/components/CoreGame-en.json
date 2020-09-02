@@ -1,4 +1,7 @@
 {
     "floorIndicator": "You are on floor {floorNumber}F",
-    "loading": "Loading ..."
+    "loading": "Loading ...",
+    "youAre": "You are a",
+    "characterAndLevel": "level {level} {character}.",
+    "healthAndSkillPoints": "{hp}/{maxHp} HP, {sp}/{maxSp} SP"
 }

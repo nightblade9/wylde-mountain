@@ -54,14 +54,36 @@ export const CoreGame = () =>
       </li>)
     }
     return (
-      <React.Fragment>
         <div>
-          <p>{languageStrings.formatString(languageStrings.floorIndicator, {"floorNumber": user.dungeon.currentFloor.floorNumber})}</p>
+          <p>
+            {languageStrings.formatString(languageStrings.floorIndicator,
+            {
+              "floorNumber": user.dungeon.currentFloor.floorNumber
+            })}
+          </p>
+          <p>
+            {languageStrings.youAre}
+            &nbsp;
+            <strong>
+              {languageStrings.formatString(languageStrings.characterAndLevel,
+                {
+                  "level": user.level,
+                  "character": user.character
+                })}
+            </strong>
+            &nbsp;
+            {languageStrings.formatString(languageStrings.healthAndSkillPoints,
+            {
+              "hp": user.currentHealthPoints,
+              "maxHp": user.maxHealthPoints,
+              "sp": user.currentSkillPoints,
+              "maxSp": user.maxSkillPoints
+            })}
+          </p>
           <ol>
             {finalHtml}
           </ol>
         </div>
-      </React.Fragment>
     );
   }
 }

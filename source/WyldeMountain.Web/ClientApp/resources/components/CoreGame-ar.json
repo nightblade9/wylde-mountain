@@ -1,4 +1,7 @@
 {
     "floorIndicator": "أنت في الطابق رقم {floorNumber}",
-    "loading": "جار التحميل ..."
+    "loading": "جار التحميل ...",
+    "youAre": "أنت",
+    "characterAndLevel": "في المستوى {level} {character}.",
+    "healthAndSkillPoints": "{hp} / {maxHp} نقاط الصحة ، {sp} / {maxSp} نقاط المهارة."
 }
