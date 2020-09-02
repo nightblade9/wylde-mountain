@@ -17,7 +17,7 @@ namespace WyldeMountain.Web.Tests.Controllers
     {
 
         [Test]
-        public void RegisterSucceeds()
+        public void RegisterSetsPlayerCharacterHealthAndSkillPoints()
         {
             // Arrange
             const string expectedEmail = "test@test.com";
@@ -54,6 +54,12 @@ namespace WyldeMountain.Web.Tests.Controllers
             var obj = ((OkObjectResult)response).Value;
             Assert.That(obj, Is.EqualTo(expectedUser));
             repository.VerifyAll();
+
+            Assert.That(expectedUser.Level, Is.EqualTo(1));
+            Assert.That(expectedUser.CurrentHealthPoints, Is.EqualTo(expectedUser.MaxHealthPoints));
+            Assert.That(expectedUser.CurrentSkillPoints, Is.EqualTo(expectedUser.MaxSkillPoints));
+            Assert.That(expectedUser.MaxHealthPoints, Is.GreaterThan(0));
+            Assert.That(expectedUser.MaxSkillPoints, Is.GreaterThan(0));
         }
 
         [Test]

@@ -1,3 +1,5 @@
+using WyldeMountain.Web.Models.Characters;
+
 namespace WyldeMountain.Web.Models.Authentication
 {
     /// <summary>
@@ -13,5 +15,39 @@ namespace WyldeMountain.Web.Models.Authentication
         public int CurrentHealthPoints { get; set; }
         public int CurrentSkillPoints { get; set; }
         public int Level { get; set; }
+        private ICharacter Stats
+        {
+            get
+            {
+                if (_stats == null)
+                {
+                    _stats = CharacterFactory.GetCharacter(this.Character);
+                }
+
+                return _stats;
+            }
+        }
+
+        private ICharacter _stats;
+        
+
+        // Testing only
+        internal User()
+        {
+        }
+
+        public User(string character)
+        {
+            this.Character = character;
+        }
+
+        public int MaxHealthPoints => this.Stats.HealthAtLevel(this.Level);
+        public int MaxSkillPoints => this.Stats.SkillPointsAtLevel(this.Level);
+
+        internal void HealToMax()
+        {
+            this.CurrentHealthPoints = this.MaxHealthPoints;
+            this.CurrentSkillPoints = this.MaxSkillPoints;
+        }
     }
 }

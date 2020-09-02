@@ -10,6 +10,7 @@ namespace WyldeMountain.Web.Controllers
     [Route("api/[controller]")]
     public class RegisterController : ControllerBase
     {
+        private const string DefaultCharacter = "Bolt Knight";
         private readonly ILogger<RegisterController> logger;
         private readonly IGenericRepository genericRepository;
 
@@ -31,7 +32,10 @@ namespace WyldeMountain.Web.Controllers
             var emailAddress = request.EmailAddress;
             var plainTextPassword = request.Password;
 
-            var newUser = new User() { EmailAddress = emailAddress };
+            var newUser = new User(DefaultCharacter) { EmailAddress = emailAddress };
+            newUser.Level = 1;
+            newUser.HealToMax();
+
             var existingUser = this.genericRepository.SingleOrDefault<User>(u => u.EmailAddress == emailAddress);
             if (existingUser != null)
             {
