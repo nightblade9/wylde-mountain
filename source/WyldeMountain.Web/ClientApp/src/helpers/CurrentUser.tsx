@@ -1,8 +1,24 @@
 import { IUser } from "../interfaces/IUser";
+import jwt_decode from "jwt-decode";
 
 export function isUserAuthenticated()
 {
-  return localStorage.getItem("userInfo") != null;
+  var token = localStorage.getItem("userInfo");
+  if (token == null)
+  {
+    return false;
+  }
+
+  var decoded:any = jwt_decode(token);
+  var expiry:number = decoded.exp;
+  if (expiry == null)
+  {
+    return true; // never expires ...
+  }
+
+  var now = Date.now() / 1000;
+  // Return true if we have a token
+  return expiry > now;
 }
 
 export async function getCurrentUserAsync()

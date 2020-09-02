@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Identity } from './Authentication/Identity';
 import LocalizedStrings from 'react-localization';
 import { globalSettings } from '../App';
+import { isUserAuthenticated } from '../helpers/CurrentUser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +51,14 @@ export function NavMenu() {
   loginStrings.setLanguage(globalSettings.language);
   languageStrings.setLanguage(globalSettings.language);
 
+  const userInfo = isUserAuthenticated() ? 
+    <Typography variant="h6">
+      <Identity token={localStorage.getItem("userInfo")!} />
+    </Typography>
+  :
+    <span />
+  ;
+
   return (
     <header>
       <AppBar position="static">
@@ -67,10 +76,8 @@ export function NavMenu() {
           </Typography>
 
           {/* user info */}
-          <Typography variant="h6">
-            <Identity token={localStorage.getItem("userInfo")!} />
-          </Typography>
-
+          {userInfo}
+          
           {/* all the links */}
           <NavButton to="/" >{languageStrings.home}</NavButton>
           <NavButton to="/counter">Counter</NavButton>
