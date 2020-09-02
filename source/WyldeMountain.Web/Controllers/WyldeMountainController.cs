@@ -9,12 +9,12 @@ namespace WyldeMountain.Web.Controllers
 {
     public class WyldeMountainController : ControllerBase
     {
-        private readonly IGenericRepository genericRepository;
+        protected readonly IGenericRepository _genericRepository;
         private User _currentUser;
 
         public WyldeMountainController(IGenericRepository genericRepository)
         {
-            this.genericRepository = genericRepository;
+            this._genericRepository = genericRepository;
         }
         
         /// <summary>
@@ -41,7 +41,7 @@ namespace WyldeMountain.Web.Controllers
                         var claims = jwtSecurityToken.Claims;
                         var email = claims.Single(c => c.Type == "email").Value;
 
-                        var user = genericRepository.SingleOrDefault<User>(u => u.EmailAddress.ToUpperInvariant() == email.ToUpperInvariant());
+                        var user = _genericRepository.SingleOrDefault<User>(u => u.EmailAddress.ToUpperInvariant() == email.ToUpperInvariant());
                         this._currentUser = user;
                         return user;
                     }

@@ -15,15 +15,15 @@ namespace WyldeMountain.Web.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly IConfiguration configuration;
-        private readonly ILogger<LoginController> logger;
-        private readonly IGenericRepository genericRepository;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<LoginController> _logger;
+        private readonly IGenericRepository _genericRepository;
 
         public LoginController(ILogger<LoginController> logger, IConfiguration configuration, IGenericRepository genericRepository)
         {
-            this.logger = logger;
-            this.configuration = configuration;
-            this.genericRepository = genericRepository;
+            _logger = logger;
+            _configuration = configuration;
+            _genericRepository = genericRepository;
         }
 
         /// <summary>Log in.</summary>
@@ -33,17 +33,18 @@ namespace WyldeMountain.Web.Controllers
             var emailAddress = request.EmailAddress;
             var plainTextPassword = request.Password;
 
-            var user = this.genericRepository.SingleOrDefault<User>(u => u.EmailAddress == emailAddress);
+            var user = this._genericRepository.SingleOrDefault<User>(u => u.EmailAddress == emailAddress);
             
             if (user == null)
             {
                 return Unauthorized(new ArgumentException(nameof(emailAddress)));
             }
 
-            var userCredentials = this.genericRepository.SingleOrDefault<Auth>(a => a.UserId == user.Id);
+            var userCredentials = this._genericRepository.SingleOrDefault<Auth>(a => a.UserId == user.Id);
             var hash = userCredentials.HashedPasswordWithSalt;
             if (userCredentials == null || !BCrypt.Net.BCrypt.Verify(plainTextPassword, hash))
             {
+                _logger.LogInformation($"Login failed: incorrect password for {emailAddress}");
                 return Unauthorized(new ArgumentException(nameof(emailAddress)));
             }
 
@@ -55,7 +56,7 @@ namespace WyldeMountain.Web.Controllers
         // https://www.c-sharpcorner.com/article/jwt-json-web-token-authentication-in-asp-net-core/
         private string GenerateJsonWebToken(User user)  
         {  
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["Jwt:Key"]));  
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration["Jwt:Key"]));  
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);  
   
             var claims = new[] {  
@@ -65,8 +66,8 @@ namespace WyldeMountain.Web.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };  
 
-            var token = new JwtSecurityToken(this.configuration["Jwt:Issuer"],  
-              this.configuration["Jwt:Issuer"],  
+            var token = new JwtSecurityToken(this._configuration["Jwt:Issuer"],  
+              this._configuration["Jwt:Issuer"],  
               claims,  
               expires: DateTime.Now.AddMinutes(120),  
               signingCredentials: credentials);  

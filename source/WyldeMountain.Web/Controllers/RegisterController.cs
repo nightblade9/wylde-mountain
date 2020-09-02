@@ -11,13 +11,11 @@ namespace WyldeMountain.Web.Controllers
     public class RegisterController : ControllerBase
     {
         private const string DefaultCharacter = "Bolt Knight";
-        private readonly ILogger<RegisterController> logger;
-        private readonly IGenericRepository genericRepository;
+        private readonly IGenericRepository _genericRepository;
 
-        public RegisterController(ILogger<RegisterController> logger, IGenericRepository genericRepository)
+        public RegisterController(IGenericRepository genericRepository)
         {
-            this.logger = logger;
-            this.genericRepository = genericRepository;
+            this._genericRepository = genericRepository;
         }
         
         /// <summary>
@@ -36,21 +34,21 @@ namespace WyldeMountain.Web.Controllers
             newUser.Level = 1;
             newUser.HealToMax();
 
-            var existingUser = this.genericRepository.SingleOrDefault<User>(u => u.EmailAddress == emailAddress);
+            var existingUser = this._genericRepository.SingleOrDefault<User>(u => u.EmailAddress == emailAddress);
             if (existingUser != null)
             {
                 return BadRequest(new ArgumentException(nameof(emailAddress)));
             }
 
-            this.genericRepository.Insert<User>(newUser);
-            newUser = this.genericRepository.SingleOrDefault<User>(u => u.EmailAddress == emailAddress); // Load back with ID
+            this._genericRepository.Insert<User>(newUser);
+            newUser = this._genericRepository.SingleOrDefault<User>(u => u.EmailAddress == emailAddress); // Load back with ID
 
             // As of writing, BCrypt.Net-Next relies on BlowFish, which has no cryptoanalysis attacks, but isn't recommended.
             // Schneier and others recommend TwoFish; doesn't seem to be a way to use it in this package, though.
             // You may want to swap out for a different package or something.
             var hash = BCrypt.Net.BCrypt.HashPassword(plainTextPassword); // Includes salt
             var auth = new Auth() { UserId = newUser.Id, HashedPasswordWithSalt = hash };
-            this.genericRepository.Insert<Auth>(auth);
+            this._genericRepository.Insert<Auth>(auth);
 
             return Ok(newUser);
         }

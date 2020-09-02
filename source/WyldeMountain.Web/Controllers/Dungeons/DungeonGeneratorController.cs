@@ -1,6 +1,5 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using WyldeMountain.Web.DataAccess.Repositories;
 using WyldeMountain.Web.Models.Dungeons;
 
@@ -10,14 +9,9 @@ namespace WyldeMountain.Web.Controllers.Dungeons
     [Route("/api/[controller]")]
     public class DungeonGeneratorController : WyldeMountainController
     {
-        private readonly ILogger<DungeonGeneratorController> _logger;
-        private readonly IGenericRepository _genericRepo;
-
-        public DungeonGeneratorController(ILogger<DungeonGeneratorController> logger, IGenericRepository genericRepository)
+        public DungeonGeneratorController(IGenericRepository genericRepository)
         : base(genericRepository)
         {
-            _logger = logger;
-            _genericRepo = genericRepository;
         }
 
         [HttpPost]
@@ -28,7 +22,7 @@ namespace WyldeMountain.Web.Controllers.Dungeons
                 return Unauthorized();
             }
 
-            var existingDungeon = _genericRepo.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
+            var existingDungeon = _genericRepository.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
 
             // Generate the first floor. We don't keep any metadata on dungeons right now.
             if (existingDungeon != null)
@@ -38,7 +32,7 @@ namespace WyldeMountain.Web.Controllers.Dungeons
             
             var dungeon = new Dungeon() { CurrentFloor = new Floor(1) };
             dungeon.UserId = CurrentUser.Id;
-            _genericRepo.Insert(dungeon);
+            _genericRepository.Insert(dungeon);
 
             return Ok();
         }

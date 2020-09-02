@@ -44,7 +44,7 @@ namespace WyldeMountain.Web.Tests.Controllers
                 Assert.That(auth.HashedPasswordWithSalt.StartsWith("$2a")); // BCrypt password
             });
 
-            var controller = new RegisterController(new Mock<ILogger<RegisterController>>().Object, repository.Object);
+            var controller = new RegisterController(repository.Object);
 
             // Act
             var response = controller.Register(request).Result;
@@ -75,7 +75,7 @@ namespace WyldeMountain.Web.Tests.Controllers
             var repository = new Mock<IGenericRepository>();
             repository.Setup(u => u.SingleOrDefault(It.IsAny<Expression<Func<User, bool>>>())).Returns(existingUser);
 
-            var controller = new RegisterController(new Mock<ILogger<RegisterController>>().Object, repository.Object);
+            var controller = new RegisterController(repository.Object);
 
             // Act
             var response = controller.Register(request).Result;

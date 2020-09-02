@@ -21,7 +21,7 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
             // Arrange
             var repository = new Mock<IGenericRepository>();
             
-            var controller = new DungeonController(new Mock<ILogger<DungeonController>>().Object, repository.Object);
+            var controller = new DungeonController(repository.Object);
             controller.CurrentUser = new User();
             var dungeon = new Dungeon() { CurrentFloor = new Floor(1) };
             repository.Setup(r => r.SingleOrDefault<Dungeon>(It.IsAny<Expression<Func<Dungeon, bool>>>())).Returns(dungeon);

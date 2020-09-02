@@ -1,9 +1,7 @@
 using System;
 using WyldeMountain.Web.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using WyldeMountain.Web.Models.Authentication;
-using WyldeMountain.Web.Models.Dungeons;
 
 namespace WyldeMountain.Web.Controllers
 {
@@ -11,14 +9,9 @@ namespace WyldeMountain.Web.Controllers
     [Route("api/[controller]")]
     public class UserController : WyldeMountainController
     {
-        private readonly ILogger<UserController> logger;
-        private readonly IGenericRepository genericRepository;
-
-        public UserController(ILogger<UserController> logger, IGenericRepository genericRepository)
+        public UserController(IGenericRepository genericRepository)
         : base(genericRepository)
         {
-            this.logger = logger;
-            this.genericRepository = genericRepository;
         }
 
         /// <summary>

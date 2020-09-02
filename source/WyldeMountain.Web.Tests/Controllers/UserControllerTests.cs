@@ -17,7 +17,7 @@ namespace WyldeMountain.Web.Tests.Controllers
         public void WhoAmIReturnsOkWithUser()
         {
             // Arrange. Use a partial mock because we have to mock CurrentUser.
-            var controller = new Mock<UserController>(new Mock<ILogger<UserController>>().Object, new Mock<IGenericRepository>().Object) { CallBase = true };
+            var controller = new Mock<UserController>(new Mock<IGenericRepository>().Object) { CallBase = true };
             var expectedUser = new User() { Id = ObjectId.GenerateNewId() };
             controller.Setup(c => c.CurrentUser).Returns(expectedUser);
 
@@ -34,7 +34,7 @@ namespace WyldeMountain.Web.Tests.Controllers
         public void WhoAmIReturnsBadRequestIfUserIsNotLoggedIn()
         {
             // Arrange. Use a partial mock because we have to mock CurrentUser.
-            var controller = new Mock<UserController>(new Mock<ILogger<UserController>>().Object, new Mock<IGenericRepository>().Object) { CallBase = true };
+            var controller = new Mock<UserController>(new Mock<IGenericRepository>().Object) { CallBase = true };
             controller.Setup(c => c.CurrentUser).Returns((User)null);
 
             // Act

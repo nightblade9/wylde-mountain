@@ -23,7 +23,7 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
             var userId = ObjectId.GenerateNewId();
             Dungeon inserted = null;
 
-            var controller = new DungeonGeneratorController(new Mock<ILogger<DungeonGeneratorController>>().Object, repository.Object);
+            var controller = new DungeonGeneratorController(repository.Object);
             controller.CurrentUser = new User() { Id = userId };
             repository.Setup(r => r.Insert(It.IsAny<Dungeon>())).Callback<Dungeon>((dungeon) => inserted = dungeon);
 
@@ -44,7 +44,7 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
             var userId = ObjectId.GenerateNewId();
             var dungeon = new Dungeon() { UserId = userId };
 
-            var controller = new DungeonGeneratorController(new Mock<ILogger<DungeonGeneratorController>>().Object, repository.Object);
+            var controller = new DungeonGeneratorController(repository.Object);
             controller.CurrentUser = new User() { Id = ObjectId.GenerateNewId() };
 
             repository.Setup(r => r.SingleOrDefault<Dungeon>(It.IsAny<Expression<Func<Dungeon, bool>>>())).Returns(dungeon);

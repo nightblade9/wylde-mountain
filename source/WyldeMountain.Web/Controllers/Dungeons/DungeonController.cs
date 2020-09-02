@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using WyldeMountain.Web.DataAccess.Repositories;
 using WyldeMountain.Web.Models.Dungeons;
 
@@ -12,14 +10,9 @@ namespace WyldeMountain.Web.Controllers.Dungeons
     [Route("/api/[controller]")]
     public class DungeonController : WyldeMountainController
     {
-        private readonly ILogger<DungeonController> _logger;
-        private readonly IGenericRepository _genericRepo;
-
-        public DungeonController(ILogger<DungeonController> logger, IGenericRepository genericRepository)
+        public DungeonController(IGenericRepository genericRepository)
         : base(genericRepository)
         {
-            _logger = logger;
-            _genericRepo = genericRepository;
         }
 
         [HttpGet]
@@ -30,7 +23,7 @@ namespace WyldeMountain.Web.Controllers.Dungeons
                 return BadRequest();
             }
             
-            var dungeon = _genericRepo.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
+            var dungeon = _genericRepository.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
             if (dungeon == null)
             {
                 return BadRequest();
