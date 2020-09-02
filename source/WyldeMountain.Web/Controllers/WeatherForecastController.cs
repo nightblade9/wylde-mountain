@@ -10,21 +10,15 @@ namespace WyldeMountain.Web.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class WeatherForecastController : WyldeMountainController
+    public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IGenericRepository _genericRepo;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration, IGenericRepository genericRepository)
-        : base(genericRepository)
+        public WeatherForecastController()
         {
-            _logger = logger;
-            _genericRepo = genericRepository;
         }
 
         [HttpGet]

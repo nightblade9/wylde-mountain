@@ -5,7 +5,7 @@ namespace WyldeMountain.Web.Models.Dungeons
 {
     public class Floor
     {
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
         
         public uint FloorNumber { get; set; }
         // Linked list of events. User only sees the first in each list.

@@ -41,8 +41,14 @@ namespace WyldeMountain.Web.Controllers
             }
 
             var userCredentials = this._genericRepository.SingleOrDefault<Auth>(a => a.UserId == user.Id);
+            if (userCredentials == null)
+            {
+                _logger.LogError($"Missing Auth record for {emailAddress} (id={user.Id})");
+                return StatusCode(500);
+            }
+
             var hash = userCredentials.HashedPasswordWithSalt;
-            if (userCredentials == null || !BCrypt.Net.BCrypt.Verify(plainTextPassword, hash))
+            if (!BCrypt.Net.BCrypt.Verify(plainTextPassword, hash))
             {
                 _logger.LogInformation($"Login failed: incorrect password for {emailAddress}");
                 return Unauthorized(new ArgumentException(nameof(emailAddress)));

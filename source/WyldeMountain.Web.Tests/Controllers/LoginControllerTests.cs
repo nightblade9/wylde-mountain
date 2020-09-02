@@ -50,9 +50,7 @@ namespace WyldeMountain.Web.Tests.Controllers
         {
             // Arrange
             const string expectedEmail = "test@test.com";
-
             var request = new LoginRequest() { EmailAddress = expectedEmail };
-
             var controller = new LoginController(new Mock<ILogger<LoginController>>().Object, new Mock<IConfiguration>().Object, new Mock<IGenericRepository>().Object);
 
             // Act
@@ -63,6 +61,29 @@ namespace WyldeMountain.Web.Tests.Controllers
             var obj = ((UnauthorizedObjectResult)response).Value;
             Assert.That(obj, Is.TypeOf(typeof(ArgumentException)));
         }
+
+        [Test]
+        public void LoginReturnsHttp500IfAuthDoesntExistsInDatabase()
+        {
+            // Arrange
+            const string expectedEmail = "test@test.com";
+            var request = new LoginRequest() { EmailAddress = expectedEmail, Password = "wrong password!" };
+            var existingUser = new User() { EmailAddress = expectedEmail, Id = new MongoDB.Bson.ObjectId() };
+
+            var repository = new Mock<IGenericRepository>();
+            repository.Setup(u => u.SingleOrDefault<User>(It.IsAny<Expression<Func<User, bool>>>())).Returns(existingUser);
+            
+            var controller = new LoginController(new Mock<ILogger<LoginController>>().Object, new Mock<IConfiguration>().Object, repository.Object);
+
+            // Act
+            var response = controller.Login(request).Result;
+
+            // Assert
+            Assert.That(response, Is.TypeOf(typeof(StatusCodeResult)));
+            var result = (StatusCodeResult)response;
+            Assert.That(result.StatusCode, Is.EqualTo(500));
+        }
+
 
         [Test]
         public void LoginReturnsUnauthorizedIfPasswordDoesntMatchHash()
