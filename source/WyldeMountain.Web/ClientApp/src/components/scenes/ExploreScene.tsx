@@ -1,19 +1,19 @@
-import { globalSettings } from '../App';
-import { getCurrentUserAndDungeonAsync, isUserAuthenticated } from '../helpers/CurrentUser';
-import { IDungeonEvent } from '../interfaces/IDungeon';
-import { IUser } from '../interfaces/IUser';
+import { globalSettings } from '../../App'
+import { getCurrentUserAndDungeonAsync, isUserAuthenticated } from '../../helpers/CurrentUser';
+import { IDungeonEvent } from '../../interfaces/IDungeon';
+import { IUser } from '../../interfaces/IUser';
 import React, { useEffect, useState } from 'react';
 import LocalizedStrings from 'react-localization';
 
-export const CoreGame = () =>
+export const ExploreScene = () =>
 {
   
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [fetchedUser, setFetchedUser] = useState(false);
 
   const languageStrings = new LocalizedStrings({
-    "en": require('~/../../resources/components/CoreGame-en.json'),
-    "ar": require('~/../../resources/components/CoreGame-ar.json')
+    "en": require('~/../../resources/components/scenes/ExploreScene-en.json'),
+    "ar": require('~/../../resources/components/scenes/ExploreScene-ar.json')
   });
   languageStrings.setLanguage(globalSettings.language);
 

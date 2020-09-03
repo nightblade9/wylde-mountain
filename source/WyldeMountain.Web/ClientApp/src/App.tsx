@@ -8,9 +8,9 @@ import { Counter } from './components/Counter';
 import { FetchData } from './components/FetchData';
 import Register from './components/Register';
 import { Login } from './components/Login';
-import { CoreGame } from './components/CoreGame';
+import { ExploreScene } from './components/scenes/ExploreScene';
 import LanguageSwitcher from './components/LanguageSwitcher';
-import BeginAdventure from './components/BeginAdventure';
+import BeginAdventure from './components/scenes/BeginAdventure';
 
 import { IGlobalSettings } from  './interfaces/IGlobalSettings';
 
@@ -39,7 +39,7 @@ const App = (props:any) =>
       <Route path='/login' component={Login} />
       <Route path='/counter' component={Counter} />
       <Route path='/fetch-data' component={FetchData} />
-      <Route path='/core-game' component={CoreGame} />
+      <Route path='/explore' component={ExploreScene} />
       <Route path='/begin-adventure' component={BeginAdventure} />
     </Layout>
   );

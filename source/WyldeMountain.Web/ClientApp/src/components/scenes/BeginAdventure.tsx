@@ -1,11 +1,11 @@
-import { globalSettings } from '../App';
+import { globalSettings } from '../../App';
 import React, { useEffect } from 'react';
 import LocalizedStrings from 'react-localization';
 
 const BeginAdventure = (props:any) => {
     const languageStrings = new LocalizedStrings({
-        "en": require('~/../../resources/components/BeginAdventure-en.json'),
-        "ar": require('~/../../resources/components/BeginAdventure-ar.json')
+        "en": require('~/../../resources/components/scenes/BeginAdventure-en.json'),
+        "ar": require('~/../../resources/components/scenes/BeginAdventure-ar.json')
     });
     languageStrings.setLanguage(globalSettings.language);
         
@@ -22,7 +22,7 @@ const BeginAdventure = (props:any) => {
             
             if (response.ok)
             {
-                props.history.push("/core-game");
+                props.history.push("/explore");
             }
         }
 

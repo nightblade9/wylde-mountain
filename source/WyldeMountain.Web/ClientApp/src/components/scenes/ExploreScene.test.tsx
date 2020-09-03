@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { MemoryRouter } from 'react-router-dom';
-import { CoreGame } from './CoreGame';
+import React from './node_modules/react';
+import ReactDOM from './node_modules/react-dom';
+import { MemoryRouter } from './node_modules/react-router-dom';
+import { ExploreScene } from './ExploreScene';
 
 beforeEach(() => {
   fetch.resetMocks();
@@ -22,7 +22,7 @@ it('CoreGame renders current floor when user is authenticated', async () => {
   const div = document.createElement('div');
   ReactDOM.render(
     <MemoryRouter>
-      <CoreGame  />
+      <ExploreScene  />
     </MemoryRouter>, div);
   await new Promise(resolve => setTimeout(resolve, 1000));
   expect(div.textContent.includes("Unauthenticated"));

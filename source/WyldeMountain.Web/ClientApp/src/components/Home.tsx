@@ -1,6 +1,5 @@
 import { globalSettings } from '../App';
-import { isUserAuthenticated, getCurrentUserAsync, getCurrentUserAndDungeonAsync } from '../helpers/CurrentUser';
-import { IDungeon } from '../interfaces/IDungeon';
+import { isUserAuthenticated, getCurrentUserAndDungeonAsync } from '../helpers/CurrentUser';
 import { IUser } from '../interfaces/IUser';
 import { Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
@@ -41,7 +40,7 @@ export const Home = () =>
     if (user?.dungeon != null)
     {
       return (
-        <Redirect to="/core-game" /> 
+        <Redirect to="/explore" /> 
       );
     }
 
