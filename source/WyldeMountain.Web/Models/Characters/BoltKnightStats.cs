@@ -2,12 +2,12 @@ namespace WyldeMountain.Web.Models.Characters
 {
     class BoltKnightStats : ICharacter
     {
-        private const int baseHealth = 50;
-        private const int baseSkillPoints = 20;
-        private const int baseStrength = 7;
-        private const int baseDefense = 5;
-        const int baseSpecialAttack = 5;
-        const int baseSpecialDefense = 3;
+        private const int baseHealth = 100;
+        private const int baseSkillPoints = 40;
+        private const int baseStrength = 15;
+        private const int baseDefense = 10;
+        const int baseSpecialAttack = 10;
+        const int baseSpecialDefense = 7;
         private const int baseSpeed = 10;
 
         public int ExperienceRequiredForLevel(int level)
@@ -20,26 +20,26 @@ namespace WyldeMountain.Web.Models.Characters
 
         public int HealthAtLevel(int level)
         {
-            return baseHealth + (level * 10);
+            return baseHealth + (level * 20);
         }
 
         public int SkillPointsAtLevel(int level)
         {
-            return baseSkillPoints + (level * 5);
+            return baseSkillPoints + (level * 10);
         }
 
         public int StrengthAtLevel(int level)
         {
-            return baseStrength + (int)(level * 2.5);
+            return baseStrength + (level * 5);
         }
 
         public int DefenseAtLevel(int level)
         {
-            return baseDefense + (int)(level * 1.5);
+            return baseDefense + (level * 3);
         }
         public int SpecialAttackAtLevel(int level)
         {
-            return baseSpecialAttack + (level * 2);
+            return baseSpecialAttack + (level * 4);
         }
 
         public int SpecialDefenseAtLevel(int level)
