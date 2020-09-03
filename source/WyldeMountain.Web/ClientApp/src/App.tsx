@@ -11,6 +11,7 @@ import { Login } from './components/Login';
 import { ExploreScene } from './components/scenes/ExploreScene';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import BeginAdventure from './components/scenes/BeginAdventure';
+import { Battle } from './components/scenes/Battle';
 
 import { IGlobalSettings } from  './interfaces/IGlobalSettings';
 
@@ -39,8 +40,9 @@ const App = (props:any) =>
       <Route path='/login' component={Login} />
       <Route path='/counter' component={Counter} />
       <Route path='/fetch-data' component={FetchData} />
-      <Route path='/explore' component={ExploreScene} />
       <Route path='/begin-adventure' component={BeginAdventure} />
+      <Route path='/explore' component={ExploreScene} />
+      <Route path='/battle' component={Battle} />
     </Layout>
   );
 };

@@ -4,12 +4,14 @@ import { IDungeonEvent } from '../../interfaces/IDungeon';
 import { IUser } from '../../interfaces/IUser';
 import React, { useEffect, useState } from 'react';
 import LocalizedStrings from 'react-localization';
+import { useHistory } from 'react-router';
 
 export const ExploreScene = () =>
 {
   
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [fetchedUser, setFetchedUser] = useState(false);
+  const history = useHistory();
 
   const languageStrings = new LocalizedStrings({
     "en": require('~/../../resources/components/scenes/ExploreScene-en.json'),
@@ -50,7 +52,9 @@ export const ExploreScene = () =>
       const event:IDungeonEvent = eventArray[0]; // or null
       finalHtml.push(<li key={"choice" + i} >
         {event.eventType}: {event.data}
-          <button onClick={e => console.log("You clicked fight #" + i)}>interact</button>
+          <button onClick={e => {
+            history.push("/battle?choice=" + i);
+          }}>interact</button>
       </li>)
     }
     return (
