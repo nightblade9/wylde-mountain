@@ -1,6 +1,6 @@
-import React from './node_modules/react';
-import ReactDOM from './node_modules/react-dom';
-import { MemoryRouter } from './node_modules/react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { ExploreScene } from './ExploreScene';
 
 beforeEach(() => {
