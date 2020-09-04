@@ -1,8 +1,6 @@
 using System;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
 using Moq;
 using NUnit.Framework;
 using WyldeMountain.Web.Controllers.Dungeons;
@@ -40,13 +38,17 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
         }
 
         [Test]
-        public void GetReturnsBadRequestIfUserIsNull()
-        {
-        }
-
-        [Test]
         public void GetReturnsBadRequestIfDungeonIsNull()
         {
+            // Arrange
+            var repository = new Mock<IGenericRepository>();
+            var controller = new DungeonController(repository.Object);
+            controller.CurrentUser = new User();
+
+            // Act
+            var response = controller.Get().Result;
+
+            Assert.That(response, Is.TypeOf(typeof(BadRequestResult)));
         }
     }
 }
