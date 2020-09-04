@@ -8,11 +8,12 @@ export const Battle = (props:any) =>
 {
     const params:any = queryString.parse(props.location.search);
     const [user, setUser] = useState<IUser | undefined>(undefined);
+    const [battleOutcome, setBattleOutcome] = useState<string[]>([]);
     const [fetchedUser, setFetchedUser] = useState(false);
+    const [fetchedBattle, setFetchedBattle] = useState(false);
     const choice:number = parseInt(params.choice);
     const event:IDungeonEvent|undefined = user?.dungeon.currentFloor.events[choice][0];
 
-    // TODO: replace all this by making the user available at the top-level, or in global, and pass it around
     useEffect(() => {
         const fetchUser = async () => {
             if (!isUserAuthenticated()) {
@@ -25,15 +26,40 @@ export const Battle = (props:any) =>
             }
         }
 
+        const fetchOutcome = async() => {
+            if (!fetchedBattle)
+            {
+                setFetchedBattle(true);
+                const headers:Record<string, string> = {
+                    "Bearer" : localStorage.getItem("userInfo") || ""
+                  };
+                
+                  const response = await fetch('api/Battle?choice=' + choice, {
+                    headers: headers
+                  });
+                  
+                  if (response.ok)
+                  {
+                    const data = await response.json();
+                    setBattleOutcome(data);
+                  }
+            }
+        }
+
         fetchUser();
+        fetchOutcome();
     });
 
     return (
         <div>
             <h1>{event?.eventType}</h1>
-            <p>You face a(n) {event?.data}! It roars in fury!</p>
             <p><strong>You: </strong> {user?.currentHealthPoints}/{user?.maxHealthPoints}HP, {user?.currentSkillPoints}/{user?.currentSkillPoints}SP</p>
-            {/* How do we get monster stats? API call? ... */}
+            <ul>
+                {
+                    // TODO: 0.5s delay between each of these rendering?
+                    battleOutcome.map(b => <li>{b}</li>)
+                }
+            </ul>
         </div>
     );
 }

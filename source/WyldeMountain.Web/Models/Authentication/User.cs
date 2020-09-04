@@ -44,6 +44,12 @@ namespace WyldeMountain.Web.Models.Authentication
         public int MaxHealthPoints => this.Stats.HealthAtLevel(this.Level);
         public int MaxSkillPoints => this.Stats.SkillPointsAtLevel(this.Level);
 
+        public int Strength => this.Stats.StrengthAtLevel(this.Level);
+        public int Defense => this.Stats.DefenseAtLevel(this.Level);
+        public int SpecialAttack => this.Stats.SpecialAttackAtLevel(this.Level);
+        public int SpecialDefense => this.Stats.SpecialDefenseAtLevel(this.Level);
+        public int Speed => this.Stats.SpeedAtLevel(this.Level);
+
         internal void HealToMax()
         {
             this.CurrentHealthPoints = this.MaxHealthPoints;
