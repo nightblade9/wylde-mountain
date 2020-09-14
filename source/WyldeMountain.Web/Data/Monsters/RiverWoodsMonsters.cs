@@ -20,7 +20,7 @@ namespace WyldeMountain.Web.Data.Monsters
         {
             public const int Health = 60;
             public const int SkillPoints = 6;
-            public const int Strength = 14;
+            public const int Strength = 20;
             public const int Defense = 7;
             public const int SpecialAttack = 14;
             public const int SpecialDefense = 7;
