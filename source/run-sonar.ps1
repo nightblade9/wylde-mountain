@@ -4,8 +4,5 @@
 # coverlet: dotnet tool install --global coverlet.console
 
 dotnet sonarscanner begin /key:"WyldeMountain" /d:sonar.cs.opencover.reportsPaths=WyldeMountain.Web.Tests/coverage.opencover.xml /d:sonar.javascript.lcov.reportPaths=ClientApp/coverage/lcov.info /d:sonar.coverage.exclusions="**Test*.cs","**/*.test*.tsx","**/node_modules/**"
-dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-cd WyldeMountain.Web\ClientApp
-npm test -- --coverage
-cd ..\..
+.\run-tests.ps1
 dotnet sonarscanner end
