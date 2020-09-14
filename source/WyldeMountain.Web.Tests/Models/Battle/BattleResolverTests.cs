@@ -30,18 +30,19 @@ namespace WyldeMountain.Web.Tests.Models.Battle
         }
         
         [Test]
-        public void ResolveEndsInVictory()
+        public void ResolveEndsInVictoryAndBequeathsXp()
         {
             var player = new User("Bolt Knight") { CurrentHealthPoints = 1000 };
             var monster = RiverWoodsMonsters.Create("Ponderon");
             monster.CurrentHealthPoints = 60;
 
             var results = new BattleResolver(player, monster).Resolve();
-            Assert.That(results.Last().ToUpperInvariant().Contains("YOU DEFEATED"), results.Last());
+            Assert.That(results.Any(r => r.ToUpperInvariant().Contains("YOU DEFEATED")));
+            Assert.That(player.ExperiencePoints, Is.GreaterThan(0));
         }
 
         [Test]
-        public void ResolveEndsInDefeat()
+        public void ResolveEndsInDefeatAndDoesntIncrementXp()
         {
             var player = new User("Bolt Knight") { CurrentHealthPoints = 100 };
             var monster = RiverWoodsMonsters.Create("Dirtoad");
@@ -49,10 +50,11 @@ namespace WyldeMountain.Web.Tests.Models.Battle
 
             var results = new BattleResolver(player, monster).Resolve();
             Assert.That(results.Last().ToUpperInvariant().Contains("YOU ARE DEAD"), results.Last());
+            Assert.That(player.ExperiencePoints, Is.Zero);
         }
 
         [Test]
-        public void ResolveEndsInStalemate()
+        public void ResolveEndsInStalemateWithNoXpGain()
         {
             var player = new User("Bolt Knight") { CurrentHealthPoints = 100 };
             var monster = new Monster("Clone Boi", 1, 0, player.Defense, player.Strength, 999, 999, player.Speed);
@@ -60,6 +62,7 @@ namespace WyldeMountain.Web.Tests.Models.Battle
             var results = new BattleResolver(player, monster).Resolve();
             var lastMessage = results.Last().ToUpperInvariant();
             Assert.That(lastMessage.Contains("BOTH") && lastMessage.Contains("EXHAUSTED"), results.Last());
+            Assert.That(player.ExperiencePoints, Is.Zero); 
         }
     }
 }

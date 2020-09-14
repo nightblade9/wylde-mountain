@@ -69,22 +69,29 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
         }
         
         [Test]
-        public void GetReturnsResults()
+        public void GetReturnsResultsAndUpdatesUser()
         {
             // Arrange
             var repository = new Mock<IGenericRepository>();
             var controller = new BattleController(repository.Object);
-            controller.CurrentUser = new User("Bolt Knight") { CurrentHealthPoints = 100 };
+            var user = new User("Bolt Knight") { CurrentHealthPoints = 100 };
+            controller.CurrentUser = user;
             var dungeon = new Dungeon() { CurrentFloor = new Floor(1, 1221) };
-            repository.Setup(r => r.SingleOrDefault<Dungeon>(It.IsAny<Expression<Func<Dungeon, bool>>>())).Returns(dungeon);
+            bool updatedUser = false;
 
-            // Act
-            var response = controller.Get(0).Result;
+            repository.Setup(r => r.SingleOrDefault<Dungeon>(It.IsAny<Expression<Func<Dungeon, bool>>>())).Returns(dungeon);
+            repository.Setup(r => r.Update<User>(controller.CurrentUser)).Callback(() => updatedUser = true);
+
+            // Act. Attack a Ponderon.
+            var ponderon = dungeon.CurrentFloor.Events.First(e => e[0].EventType == "Battle" && e[0].Data == "Ponderon");
+            var index = dungeon.CurrentFloor.Events.IndexOf(ponderon);
+            var response = controller.Get(index).Result;
 
             Assert.That(response, Is.TypeOf(typeof(OkObjectResult)));
             var result = response as OkObjectResult;
             var messages = result.Value as IEnumerable<string>;
             Assert.That(messages.Any());
+            Assert.That(updatedUser);
         }
     }
 }

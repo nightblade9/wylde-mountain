@@ -58,6 +58,10 @@ namespace WyldeMountain.Web.Models.Battle
             else if (_monster.CurrentHealthPoints <= 0)
             {
                 toReturn.Add($"You defeated the {_monster.Name}!");
+                
+                var xpGain = ExperienceCalculator.XpGainedFor(_monster);
+                toReturn.Add($"You gained {xpGain} experience points.");
+                _player.ExperiencePoints += xpGain;
             }
             else if (roundsLeft <= 0)
             {

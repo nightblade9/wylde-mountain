@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WyldeMountain.Web.Data.Monsters;
 using WyldeMountain.Web.DataAccess.Repositories;
+using WyldeMountain.Web.Models.Authentication;
 using WyldeMountain.Web.Models.Battle;
 using WyldeMountain.Web.Models.Dungeons;
 
@@ -49,7 +50,7 @@ namespace WyldeMountain.Web.Controllers.Dungeons
             var monster = RiverWoodsMonsters.Create(e.Data);
             var results = new BattleResolver(this.CurrentUser, monster).Resolve();
 
-            // TODO: persist results
+            this._genericRepository.Update<User>(this.CurrentUser);
 
             return Ok(results);
         }
