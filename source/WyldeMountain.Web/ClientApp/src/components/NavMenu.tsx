@@ -59,6 +59,10 @@ export function NavMenu() {
     <span />
   ;
 
+  const loginLink = (localStorage.getItem("userInfo") == null) ?
+    <NavButton to="/login">{loginStrings.login}</NavButton> :
+    "";
+
   return (
     <header>
       <AppBar position="static">
@@ -82,7 +86,7 @@ export function NavMenu() {
           <NavButton to="/" >{languageStrings.home}</NavButton>
           <NavButton to="/counter">Counter</NavButton>
           <NavButton to="/fetch-data">Fetch data</NavButton>
-          <NavButton to="/login">{loginStrings.login}</NavButton>
+          {loginLink}
         </Toolbar>
       </AppBar>
     </header>
