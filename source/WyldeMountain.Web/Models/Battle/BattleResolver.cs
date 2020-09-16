@@ -7,8 +7,8 @@ namespace WyldeMountain.Web.Models.Battle
     class BattleResolver
     {
         private const int MaxRounds = 100; // there's a bug if you survive but don't kill the monster in N rounds.
-        private User _player;
-        private Monster _monster;
+        private readonly User _player;
+        private readonly Monster _monster;
 
         public BattleResolver(User user, Monster monster)
         {
