@@ -59,7 +59,7 @@ export function NavMenu() {
     <span />
   ;
 
-  const loginLink = (localStorage.getItem("userInfo") == null) ?
+  const loginLink = !isUserAuthenticated() ?
     <NavButton to="/login">{loginStrings.login}</NavButton> :
     "";
 
