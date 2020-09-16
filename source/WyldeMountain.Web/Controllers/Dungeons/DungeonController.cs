@@ -29,10 +29,6 @@ namespace WyldeMountain.Web.Controllers.Dungeons
                 return BadRequest();
             }
 
-            // Return just what the user can see (first item in each event list). You tricksy little hobbits.
-            var visibleEvents = dungeon.CurrentFloor.Events.Select(s => new List<DungeonEvent>(new DungeonEvent[] { s.FirstOrDefault() }));
-            dungeon.CurrentFloor.Events = visibleEvents.ToList();
-
             return Ok(dungeon);
         }
     }

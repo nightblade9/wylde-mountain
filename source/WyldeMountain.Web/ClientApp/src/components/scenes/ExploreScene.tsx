@@ -53,7 +53,7 @@ export const ExploreScene = () =>
       
       if (event != null) {
         finalHtml.push(<li key={"choice" + i} >
-          {event.eventType}: {event.data}
+          {event.eventType}: {event.data} ({eventArray.length - 1} more events)
             <button onClick={e => {
               history.push("/battle?choice=" + i);
             }}>interact</button>

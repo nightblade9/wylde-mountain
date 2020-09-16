@@ -48,4 +48,5 @@ it('renders an empty placeholder if a list of events is empty', async () => {
     </MemoryRouter>, div);
   await new Promise(resolve => setTimeout(resolve, 1000));
   expect(div.textContent.includes("(empty)"));
+  expect(div.textContent.includes("(0 more events)"));
 });
