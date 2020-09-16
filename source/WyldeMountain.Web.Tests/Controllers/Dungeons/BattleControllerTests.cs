@@ -69,7 +69,7 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
         }
         
         [Test]
-        public void GetReturnsResultsAndUpdatesUser()
+        public void GetReturnsResultsRemovesMonsterEventAndUpdatesUser()
         {
             // Arrange
             var repository = new Mock<IGenericRepository>();
@@ -85,13 +85,19 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
             // Act. Attack a Ponderon.
             var ponderon = dungeon.CurrentFloor.Events.First(e => e[0].EventType == "Battle" && e[0].Data == "Ponderon");
             var index = dungeon.CurrentFloor.Events.IndexOf(ponderon);
+            var eventCount = dungeon.CurrentFloor.Events[index].Count;
             var response = controller.Get(index).Result;
 
+            // Assert: victory messages
             Assert.That(response, Is.TypeOf(typeof(OkObjectResult)));
             var result = response as OkObjectResult;
             var messages = result.Value as IEnumerable<string>;
             Assert.That(messages.Any());
+            // Assert: user was updated (XP/level)
             Assert.That(updatedUser);
+            // Assert: monster is gone
+            Assert.That(dungeon.CurrentFloor.Events[index].Count, Is.EqualTo(eventCount - 1));
+
         }
     }
 }

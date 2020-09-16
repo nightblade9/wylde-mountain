@@ -50,6 +50,12 @@ namespace WyldeMountain.Web.Controllers.Dungeons
             var monster = RiverWoodsMonsters.Create(e.Data);
             var results = new BattleResolver(this.CurrentUser, monster).Resolve();
 
+            if (monster.CurrentHealthPoints <= 0)
+            {
+                allEvents[choice].RemoveAt(0);
+                _genericRepository.Update<Dungeon>(dungeon);
+            }
+
             this._genericRepository.Update<User>(this.CurrentUser);
 
             return Ok(results);

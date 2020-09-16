@@ -50,12 +50,17 @@ export const ExploreScene = () =>
     {
       const eventArray:IDungeonEvent[] = user.dungeon.currentFloor.events[i];
       const event:IDungeonEvent = eventArray[0]; // or null
-      finalHtml.push(<li key={"choice" + i} >
-        {event.eventType}: {event.data}
-          <button onClick={e => {
-            history.push("/battle?choice=" + i);
-          }}>interact</button>
-      </li>)
+      
+      if (event != null) {
+        finalHtml.push(<li key={"choice" + i} >
+          {event.eventType}: {event.data}
+            <button onClick={e => {
+              history.push("/battle?choice=" + i);
+            }}>interact</button>
+        </li>);
+      } else {
+        finalHtml.push(<li key={"choice" + i} >(empty)</li>);
+      }
     }
     return (
         <div>
