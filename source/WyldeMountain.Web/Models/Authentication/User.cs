@@ -55,5 +55,21 @@ namespace WyldeMountain.Web.Models.Authentication
             this.CurrentHealthPoints = this.MaxHealthPoints;
             this.CurrentSkillPoints = this.MaxSkillPoints;
         }
+
+        /// <summary>
+        /// Check for level-up. Returns true if the player levelled-up.
+        /// </summary>
+        internal bool CheckForAndLevelUp()
+        {
+            var toReturn = false;
+
+            while (this.ExperiencePoints >= this.Stats.ExperienceRequiredForLevel(this.Level + 1))
+            {
+                this.Level++;
+                toReturn = true;
+            }
+            
+            return toReturn;
+        }
     }
 }

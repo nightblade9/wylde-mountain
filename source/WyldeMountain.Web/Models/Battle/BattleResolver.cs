@@ -61,7 +61,12 @@ namespace WyldeMountain.Web.Models.Battle
                 
                 var xpGain = ExperienceCalculator.XpGainedFor(_monster);
                 toReturn.Add($"You gained {xpGain} experience points.");
+                
                 _player.ExperiencePoints += xpGain;
+                if (_player.CheckForAndLevelUp())
+                {
+                    toReturn.Add($"You are now level {_player.Level}!");
+                }
             }
             else if (roundsLeft <= 0)
             {

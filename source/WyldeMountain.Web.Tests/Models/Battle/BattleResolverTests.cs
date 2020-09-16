@@ -32,13 +32,34 @@ namespace WyldeMountain.Web.Tests.Models.Battle
         [Test]
         public void ResolveEndsInVictoryAndBequeathsXp()
         {
-            var player = new User("Bolt Knight") { CurrentHealthPoints = 1000 };
+            // Arrange
+            var player = new User("Bolt Knight") { Level = 1, CurrentHealthPoints = 1000 };
             var monster = RiverWoodsMonsters.Create("Ponderon");
             monster.CurrentHealthPoints = 60;
 
+            // Act
             var results = new BattleResolver(player, monster).Resolve();
+
+            // Assert
             Assert.That(results.Any(r => r.ToUpperInvariant().Contains("YOU DEFEATED")));
             Assert.That(player.ExperiencePoints, Is.GreaterThan(0));
+            Assert.That(player.Level, Is.EqualTo(1)); // Didn't level up
+        }
+
+        [Test]
+        public void ResolveVictoryIncreasesLevelIfRequired()
+        {
+            // Arrange
+            // Trick: user XP can be like 2-3 levels higher, will still level up appropriately
+            var player = new User("Bolt Knight") { Level = 1, CurrentHealthPoints = 1000, ExperiencePoints = 9999 };
+            var monster = RiverWoodsMonsters.Create("Ponderon");
+            monster.CurrentHealthPoints = 1;
+
+            // Act
+            var results = new BattleResolver(player, monster).Resolve();
+
+            // Assert
+            Assert.That(player.Level, Is.GreaterThan(1));
         }
 
         [Test]
