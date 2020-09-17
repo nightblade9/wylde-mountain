@@ -14,7 +14,7 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
     public class DungeonControllerTests
     {
         [Test]
-        public void GetReturnsVisibleEventsOnly()
+        public void GetReturnsAllEvents()
         {
             // Arrange
             var repository = new Mock<IGenericRepository>();
@@ -31,10 +31,7 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
             Assert.That(response, Is.TypeOf(typeof(ActionResult<Dungeon>)));
             var actualDungeon = ((ObjectResult)response.Result).Value as Dungeon;
             Assert.That(actualDungeon, Is.Not.Null);
-            foreach (var choice in actualDungeon.CurrentFloor.Events)
-            {
-                Assert.That(choice.Count, Is.EqualTo(1)); // four events but we only see the first/visible one
-            }
+            Assert.That(actualDungeon, Is.EqualTo(dungeon));
         }
 
         [Test]
