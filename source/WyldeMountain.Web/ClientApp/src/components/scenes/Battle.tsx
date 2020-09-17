@@ -6,11 +6,14 @@ import React, { useState, useEffect } from "react";
 
 export const Battle = (props:any) =>
 {
+    const PER_MESSAGE_TIME_SECONDS:number = 0.7;
     const params:any = queryString.parse(props.location.search);
     const [user, setUser] = useState<IUser | undefined>(undefined);
     const [battleOutcome, setBattleOutcome] = useState<string[]>([]);
     const [fetchedUser, setFetchedUser] = useState(false);
     const [fetchedBattle, setFetchedBattle] = useState(false);
+    const [lastMessageIndex, setLastMessageIndex] = useState(-1);
+
     const choice:number = parseInt(params.choice);
     const event:IDungeonEvent|undefined = user?.dungeon.currentFloor.events[choice][0];
 
@@ -50,14 +53,36 @@ export const Battle = (props:any) =>
         fetchOutcome();
     });
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+            // Didn't load yet? Do nothing.
+            if (battleOutcome == null || battleOutcome.length == 0)
+            {
+                return;
+            }
+
+            // Done showing everything? End timer.
+            if (lastMessageIndex >= battleOutcome.length)
+            {
+                clearInterval(timer);
+                return;
+            }
+
+            setLastMessageIndex(lastMessageIndex + 1);
+        }, 1000 * PER_MESSAGE_TIME_SECONDS);
+
+        return () => clearInterval(timer);
+    })
+
     return (
         <div>
             <h1>{event?.eventType}</h1>
+            <p>The battle begins!</p>
             <p><strong>You: </strong> {user?.currentHealthPoints}/{user?.maxHealthPoints}HP, {user?.currentSkillPoints}/{user?.currentSkillPoints}SP</p>
             <ul>
-                {
-                    // TODO: 0.5s delay between each of these rendering?
-                    battleOutcome.map(b => <li>{b}</li>)
+                {lastMessageIndex > 0 ?
+                    battleOutcome.slice(0, lastMessageIndex).map(b => <li>{b}</li>) :
+                    ""
                 }
             </ul>
         </div>
