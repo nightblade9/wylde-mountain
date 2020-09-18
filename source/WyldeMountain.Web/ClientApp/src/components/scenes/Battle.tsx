@@ -13,6 +13,7 @@ export const Battle = (props:any) =>
     const [fetchedUser, setFetchedUser] = useState(false);
     const [fetchedBattle, setFetchedBattle] = useState(false);
     const [lastMessageIndex, setLastMessageIndex] = useState(-1);
+    const [isDone, setIsDone] = useState(false);
 
     const choice:number = parseInt(params.choice);
     const event:IDungeonEvent|undefined = user?.dungeon.currentFloor.events[choice][0];
@@ -65,6 +66,7 @@ export const Battle = (props:any) =>
             if (lastMessageIndex >= battleOutcome.length)
             {
                 clearInterval(timer);
+                setIsDone(true);
                 return;
             }
 

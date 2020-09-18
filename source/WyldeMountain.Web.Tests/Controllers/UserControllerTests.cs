@@ -1,8 +1,6 @@
-using System;
 using WyldeMountain.Web.Controllers;
 using WyldeMountain.Web.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Moq;
 using NUnit.Framework;
@@ -16,13 +14,12 @@ namespace WyldeMountain.Web.Tests.Controllers
         [Test]
         public void WhoAmIReturnsOkWithUser()
         {
-            // Arrange. Use a partial mock because we have to mock CurrentUser.
-            var controller = new Mock<UserController>(new Mock<IGenericRepository>().Object) { CallBase = true };
-            var expectedUser = new User() { Id = ObjectId.GenerateNewId() };
-            controller.Setup(c => c.CurrentUser).Returns(expectedUser);
+            var controller = new UserController(new Mock<IGenericRepository>().Object);
+            var expectedUser = new User("Bolt Knight") { Id = ObjectId.GenerateNewId() };
+            controller.CurrentUser = expectedUser;
 
             // Act
-            var response = controller.Object.WhoAmI().Result;
+            var response = controller.WhoAmI().Result;
 
             // Assert
             Assert.That(response, Is.TypeOf(typeof(OkObjectResult)));
@@ -41,9 +38,37 @@ namespace WyldeMountain.Web.Tests.Controllers
             var response = controller.Object.WhoAmI().Result;
 
             // Assert
-             Assert.That(response, Is.TypeOf(typeof(BadRequestObjectResult)));
-            var obj = ((BadRequestObjectResult)response).Value;
-            Assert.That(obj, Is.TypeOf(typeof(InvalidOperationException)));
+             Assert.That(response, Is.TypeOf(typeof(BadRequestResult)));
+        }
+
+        
+        [Test]
+        public void ResurrectReturnsBadRequestIfUserIsNotLoggedIn()
+        {
+            // Arrange. Use a partial mock because we have to mock CurrentUser.
+            var controller = new Mock<UserController>(new Mock<IGenericRepository>().Object) { CallBase = true };
+            controller.Setup(c => c.CurrentUser).Returns((User)null);
+
+            // Act
+            var response = controller.Object.Resurrect();
+
+            // Assert
+             Assert.That(response, Is.TypeOf(typeof(BadRequestResult)));
+        }
+
+        [Test]
+        public void ResurrectResetsHealthToFull()
+        {
+            // Arrange
+            var repo = new Mock<IGenericRepository>();
+            var controller = new UserController(repo.Object);
+            controller.CurrentUser = new User("Bolt Knight") { CurrentHealthPoints = 0 };
+
+            // Act
+            controller.Resurrect();
+
+            // Assert
+            Assert.That(controller.CurrentUser.CurrentHealthPoints, Is.EqualTo(controller.CurrentUser.MaxHealthPoints));
         }
     }
 }
