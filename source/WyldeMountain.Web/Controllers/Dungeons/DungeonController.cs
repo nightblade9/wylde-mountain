@@ -31,5 +31,23 @@ namespace WyldeMountain.Web.Controllers.Dungeons
 
             return Ok(dungeon);
         }
+
+        [HttpDelete]
+        public ActionResult Destroy()
+        {
+            if (this.CurrentUser == null)
+            {
+                return BadRequest();
+            }
+
+            var dungeon = _genericRepository.SingleOrDefault<Dungeon>(d => d.UserId == this.CurrentUser.Id);
+            if (dungeon == null)
+            {
+                return BadRequest();
+            }
+
+            _genericRepository.Delete(dungeon);
+            return Ok();
+        }
     }
 }

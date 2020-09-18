@@ -28,7 +28,23 @@ namespace WyldeMountain.Web.Controllers
             else
             {
                 // shold be impossible; [Authorize] amirite?
-                return BadRequest(new InvalidOperationException("User is not logged in!"));
+                return BadRequest();
+            }
+        }
+
+        [HttpPatch]
+        public ActionResult Resurrect()
+        {
+            if (this.CurrentUser != null)
+            {
+                this.CurrentUser.CurrentHealthPoints = this.CurrentUser.MaxHealthPoints;
+                _genericRepository.Update(this.CurrentUser);
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
             }
         }
     }

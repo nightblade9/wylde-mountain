@@ -72,6 +72,13 @@ namespace WyldeMountain.Web.DataAccess.Repositories
             collection.ReplaceOne(filter, target, new ReplaceOptions());
         }
 
+        public void Delete<T>(T target) where T : HasId
+        {
+            var collection = this.GetCollection<T>();
+            var filter = Builders<T>.Filter.Eq("Id", target.Id);
+            collection.DeleteOne(filter);
+        }
+
         private IMongoCollection<T> GetCollection<T>()
         {
             var nameParts = typeof(T).Name.Split('.');

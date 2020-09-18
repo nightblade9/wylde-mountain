@@ -11,5 +11,6 @@ namespace WyldeMountain.Web.DataAccess.Repositories
         void Insert<T>(T obj);
         IEnumerable<T> All<T>();
         void Update<T>(T target) where T : HasId;
+        void Delete<T>(T target) where T : HasId;
     }
 }

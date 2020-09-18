@@ -30,6 +30,18 @@ export const ExploreScene = () =>
         setFetchedUser(true);
         var data = await getCurrentUserAndDungeonAsync();
         setUser(data);
+
+        if (data !== undefined && data.currentHealthPoints <= 0)
+        {
+          // If the player died, resurrect them, destroy the dungeon, and send them home
+          const headers:Record<string, string> = {
+            "Bearer" : localStorage.getItem("userInfo") || ""
+          };
+
+          await fetch("/api/User", { headers: headers, method: "PATCH" });
+          await fetch("/api/Dungeon", { headers: headers, method: "DELETE" });
+          history.push("/");
+        }
       }
     }
 
