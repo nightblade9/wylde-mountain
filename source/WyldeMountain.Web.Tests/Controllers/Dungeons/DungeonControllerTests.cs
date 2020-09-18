@@ -47,5 +47,56 @@ namespace WyldeMountain.Web.Tests.Controllers.Dungeons
 
             Assert.That(response, Is.TypeOf(typeof(BadRequestResult)));
         }
+
+        [Test]
+        public void DestroyReturnsBadRequestIfUserIsNotLoggedIn()
+        {
+            // Arrange. Use a partial mock because we have to mock CurrentUser.
+            var controller = new Mock<DungeonController>(new Mock<IGenericRepository>().Object) { CallBase = true };
+            controller.Setup(c => c.CurrentUser).Returns((User)null);
+
+            // Act
+            var response = controller.Object.Destroy();
+
+            // Assert
+             Assert.That(response, Is.TypeOf(typeof(BadRequestResult)));
+        }
+
+        [Test]
+        public void DestroyReturnsBadRequestIfDungeonIsNull()
+        {
+            // Arrange
+            var repository = new Mock<IGenericRepository>();
+            
+            var controller = new DungeonController(repository.Object);
+            controller.CurrentUser = new User();
+            
+            // Act
+            var response = controller.Destroy();
+
+            // Assert
+             Assert.That(response, Is.TypeOf(typeof(BadRequestResult)));
+        }
+
+        [Test]
+        public void DestroyDeletesDungeon()
+        {
+            // Arrange
+            var repository = new Mock<IGenericRepository>();
+            var isDeleted = false;
+            
+            var controller = new DungeonController(repository.Object);
+            controller.CurrentUser = new User();
+            var dungeon = new Dungeon() { CurrentFloor = new Floor(1) };
+            repository.Setup(r => r.SingleOrDefault<Dungeon>(It.IsAny<Expression<Func<Dungeon, bool>>>())).Returns(dungeon);
+            repository.Setup(r => r.Delete<Dungeon>(dungeon)).Callback(() => isDeleted = true);
+
+            // Act
+            var response = controller.Destroy();
+
+            // Assert
+            Assert.That(response, Is.TypeOf(typeof(OkResult)));
+            Assert.That(isDeleted, Is.True);
+        }
     }
 }
